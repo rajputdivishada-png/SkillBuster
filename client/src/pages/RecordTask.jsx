@@ -1,0 +1,298 @@
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { submitAssessment, getSkills } from '../api';
+import toast from 'react-hot-toast';
+import { Video, Square, Upload, Camera, Monitor, Sparkles } from 'lucide-react';
+
+export default function RecordTask() {
+    const [skills, setSkills] = useState([]);
+    const [selectedSkill, setSelectedSkill] = useState('');
+    const [selectedIndustry, setSelectedIndustry] = useState('');
+    const [isRecording, setIsRecording] = useState(false);
+    const [recordedBlob, setRecordedBlob] = useState(null);
+    const [recordedUrl, setRecordedUrl] = useState(null);
+    const [timer, setTimer] = useState(0);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [recordingMode, setRecordingMode] = useState('screen'); // 'screen' or 'camera'
+
+    const mediaRecorderRef = useRef(null);
+    const streamRef = useRef(null);
+    const videoRef = useRef(null);
+    const previewRef = useRef(null);
+    const timerRef = useRef(null);
+    const chunksRef = useRef([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                const { data } = await getSkills();
+                setSkills(data);
+                if (data.length > 0) {
+                    setSelectedSkill(data[0].name);
+                    setSelectedIndustry(data[0].industry);
+                }
+            } catch (err) {
+                console.error('Failed to fetch skills:', err);
+            }
+        };
+        fetchSkills();
+
+        return () => {
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+            }
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, []);
+
+    const startRecording = async () => {
+        try {
+            chunksRef.current = [];
+            let stream;
+
+            if (recordingMode === 'screen') {
+                const displayStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: 'screen' },
+                    audio: true
+                });
+                // Try to add mic audio
+                try {
+                    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const tracks = [...displayStream.getTracks(), ...audioStream.getAudioTracks()];
+                    stream = new MediaStream(tracks);
+                } catch {
+                    stream = displayStream;
+                }
+            } else {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user', width: 1280, height: 720 },
+                    audio: true
+                });
+            }
+
+            streamRef.current = stream;
+            if (previewRef.current) {
+                previewRef.current.srcObject = stream;
+                previewRef.current.play();
+            }
+
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+                    ? 'video/webm;codecs=vp9'
+                    : 'video/webm'
+            });
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) chunksRef.current.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+                setRecordedBlob(blob);
+                setRecordedUrl(URL.createObjectURL(blob));
+                stream.getTracks().forEach(track => track.stop());
+            };
+
+            mediaRecorderRef.current = mediaRecorder;
+            mediaRecorder.start(1000);
+            setIsRecording(true);
+            setTimer(0);
+
+            timerRef.current = setInterval(() => {
+                setTimer(prev => {
+                    if (prev >= 300) { // 5 minutes max
+                        stopRecording();
+                        return 300;
+                    }
+                    return prev + 1;
+                });
+            }, 1000);
+
+        } catch (err) {
+            console.error('Recording error:', err);
+            toast.error('Failed to access camera/screen. Please check permissions.');
+        }
+    };
+
+    const stopRecording = useCallback(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+            mediaRecorderRef.current.stop();
+        }
+        if (timerRef.current) clearInterval(timerRef.current);
+        setIsRecording(false);
+    }, []);
+
+    const resetRecording = () => {
+        setRecordedBlob(null);
+        setRecordedUrl(null);
+        setTimer(0);
+        if (previewRef.current) previewRef.current.srcObject = null;
+    };
+
+    const handleSubmit = async () => {
+        if (!recordedBlob) {
+            toast.error('Please record a video first');
+            return;
+        }
+        if (!selectedSkill) {
+            toast.error('Please select a skill');
+            return;
+        }
+
+        setIsSubmitting(true);
+        const formData = new FormData();
+        formData.append('video', recordedBlob, 'skill-recording.webm');
+        formData.append('skillName', selectedSkill);
+        formData.append('industry', selectedIndustry);
+
+        try {
+            const { data } = await submitAssessment(formData);
+            toast.success('Assessment complete!');
+            if (data.badgeId) {
+                toast.success('🏆 Badge earned!', { duration: 5000 });
+            }
+            navigate(`/results/${data.assessment._id}`);
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Assessment failed. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    };
+
+    const handleSkillChange = (e) => {
+        const skillName = e.target.value;
+        setSelectedSkill(skillName);
+        const skill = skills.find(s => s.name === skillName);
+        if (skill) setSelectedIndustry(skill.industry);
+    };
+
+    return (
+        <div className="recorder-container" id="record-task-page">
+            <div className="recorder-card">
+                <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.8rem', marginBottom: '0.5rem' }}>
+                    Record Your Skill
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+                    Choose a skill, record your task, and let AI evaluate your abilities
+                </p>
+
+                {/* Skill Selection */}
+                <div className="skill-selector">
+                    <div className="form-group" style={{ margin: 0 }}>
+                        <label htmlFor="skill-select">Skill Category</label>
+                        <select
+                            id="skill-select"
+                            className="form-select"
+                            value={selectedSkill}
+                            onChange={handleSkillChange}
+                        >
+                            {skills.map((skill) => (
+                                <option key={skill.name} value={skill.name}>{skill.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                        <label>Recording Mode</label>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                                className={`role-option ${recordingMode === 'screen' ? 'selected' : ''}`}
+                                onClick={() => setRecordingMode('screen')}
+                                style={{ padding: '10px', fontSize: '0.85rem' }}
+                            >
+                                <Monitor size={16} /> Screen
+                            </button>
+                            <button
+                                className={`role-option ${recordingMode === 'camera' ? 'selected' : ''}`}
+                                onClick={() => setRecordingMode('camera')}
+                                style={{ padding: '10px', fontSize: '0.85rem' }}
+                            >
+                                <Camera size={16} /> Camera
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Video Preview */}
+                <div className="video-preview" id="video-preview">
+                    {recordedUrl ? (
+                        <video ref={videoRef} src={recordedUrl} controls style={{ width: '100%', height: '100%' }} />
+                    ) : isRecording ? (
+                        <>
+                            <video ref={previewRef} autoPlay muted style={{ width: '100%', height: '100%' }} />
+                            <div className="recording-timer">
+                                <div className="recording-dot"></div>
+                                REC {formatTime(timer)} / 05:00
+                            </div>
+                        </>
+                    ) : (
+                        <div className="video-placeholder">
+                            <div className="icon">
+                                {recordingMode === 'screen' ? <Monitor size={48} /> : <Camera size={48} />}
+                            </div>
+                            <p>Click "Start Recording" to begin your skill demonstration</p>
+                            <p style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}>Maximum 5 minutes allowed</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Controls */}
+                <div className="recorder-controls">
+                    {!isRecording && !recordedUrl && (
+                        <button className="btn btn-primary" onClick={startRecording} id="start-recording-btn">
+                            <Video size={18} /> Start Recording
+                        </button>
+                    )}
+                    {isRecording && (
+                        <button className="btn btn-danger" onClick={stopRecording} id="stop-recording-btn">
+                            <Square size={18} /> Stop Recording
+                        </button>
+                    )}
+                    {recordedUrl && !isSubmitting && (
+                        <>
+                            <button className="btn btn-secondary" onClick={resetRecording}>
+                                <Video size={18} /> Re-record
+                            </button>
+                            <button className="btn btn-gold" onClick={handleSubmit} id="submit-assessment-btn">
+                                <Upload size={18} /> Submit for Assessment
+                            </button>
+                        </>
+                    )}
+                </div>
+
+                {/* Submitting State */}
+                {isSubmitting && (
+                    <div className="loading-container" style={{ minHeight: 'auto', padding: '2rem 0' }}>
+                        <div className="spinner"></div>
+                        <p className="loading-text">
+                            <span className="gradient-text">Gemini is evaluating your skill...</span>
+                            <br />
+                            <span style={{ fontSize: '0.85rem' }}>This may take up to 30 seconds</span>
+                        </p>
+                    </div>
+                )}
+
+                {/* Tips */}
+                {!isSubmitting && (
+                    <div style={{ marginTop: '1rem', padding: '1.25rem', background: 'rgba(99,102,241,0.05)', borderRadius: '12px', border: '1px solid rgba(99,102,241,0.1)' }}>
+                        <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-accent)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Sparkles size={14} /> Pro Tips for Best Results
+                        </p>
+                        <ul style={{ fontSize: '0.82rem', color: 'var(--text-muted)', paddingLeft: '1.25rem', lineHeight: 1.8 }}>
+                            <li>For IT skills, use screen recording to capture your code</li>
+                            <li>Narrate what you're doing — Gemini considers verbal explanations</li>
+                            <li>Show your debug process, not just the final result</li>
+                            <li>Keep recording under 5 minutes for best analysis</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

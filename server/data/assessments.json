@@ -1,0 +1,329 @@
+[
+  {
+    "_id": "mmgtaooy-r1vkz4usu",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 79,
+    "passed": true,
+    "skillLevel": "Intermediate",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 81,
+        "observation": "Good component structure observed with proper use of functional components and hooks."
+      },
+      "efficiency": {
+        "score": 76,
+        "observation": "Code is reasonably efficient. Some optimization opportunities with memoization."
+      },
+      "bestPractices": {
+        "score": 80,
+        "observation": "Follows React conventions well. Clean JSX with proper key usage in lists."
+      },
+      "problemSolving": {
+        "score": 78,
+        "observation": "Demonstrated logical approach to building the UI component hierarchy."
+      }
+    },
+    "strengths": [
+      "Clean component architecture",
+      "Good understanding of React hooks",
+      "Readable code structure"
+    ],
+    "improvements": [
+      "Consider using TypeScript for type safety",
+      "Add error boundary handling"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772917477733-487370224.webm",
+    "createdAt": "2026-03-07T21:04:47.746Z",
+    "badgeId": "mmgtaooz-jk0n314qu"
+  },
+  {
+    "_id": "mmgtfr2e-96o8ar6ta",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 96,
+    "passed": true,
+    "skillLevel": "Expert",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 98,
+        "observation": "Good component structure observed with proper use of functional components and hooks."
+      },
+      "efficiency": {
+        "score": 93,
+        "observation": "Code is reasonably efficient. Some optimization opportunities with memoization."
+      },
+      "bestPractices": {
+        "score": 97,
+        "observation": "Follows React conventions well. Clean JSX with proper key usage in lists."
+      },
+      "problemSolving": {
+        "score": 95,
+        "observation": "Demonstrated logical approach to building the UI component hierarchy."
+      }
+    },
+    "strengths": [
+      "Clean component architecture",
+      "Good understanding of React hooks",
+      "Readable code structure"
+    ],
+    "improvements": [
+      "Consider using TypeScript for type safety",
+      "Add error boundary handling"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772917713751-608248703.webm",
+    "createdAt": "2026-03-07T21:08:44.102Z",
+    "badgeId": "mmgtfr2f-fow0hdp7g"
+  },
+  {
+    "_id": "mmgto9cs-ubxyhg8na",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 95,
+    "passed": true,
+    "skillLevel": "Expert",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 97,
+        "observation": "Good component structure observed with proper use of functional components and hooks."
+      },
+      "efficiency": {
+        "score": 92,
+        "observation": "Code is reasonably efficient. Some optimization opportunities with memoization."
+      },
+      "bestPractices": {
+        "score": 96,
+        "observation": "Follows React conventions well. Clean JSX with proper key usage in lists."
+      },
+      "problemSolving": {
+        "score": 94,
+        "observation": "Demonstrated logical approach to building the UI component hierarchy."
+      }
+    },
+    "strengths": [
+      "Clean component architecture",
+      "Good understanding of React hooks",
+      "Readable code structure"
+    ],
+    "improvements": [
+      "Consider using TypeScript for type safety",
+      "Add error boundary handling"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772918114133-561372583.webm",
+    "createdAt": "2026-03-07T21:15:21.052Z",
+    "badgeId": "mmgto9cu-nn07ursj0"
+  },
+  {
+    "_id": "mmgu43p2-8i38bqimk",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 75,
+    "passed": true,
+    "skillLevel": "Intermediate",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 77,
+        "observation": "Good component structure observed with proper use of functional components and hooks."
+      },
+      "efficiency": {
+        "score": 72,
+        "observation": "Code is reasonably efficient. Some optimization opportunities with memoization."
+      },
+      "bestPractices": {
+        "score": 76,
+        "observation": "Follows React conventions well. Clean JSX with proper key usage in lists."
+      },
+      "problemSolving": {
+        "score": 74,
+        "observation": "Demonstrated logical approach to building the UI component hierarchy."
+      }
+    },
+    "strengths": [
+      "Clean component architecture",
+      "Good understanding of React hooks",
+      "Readable code structure"
+    ],
+    "improvements": [
+      "Consider using TypeScript for type safety",
+      "Add error boundary handling"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772918849775-779226762.webm",
+    "createdAt": "2026-03-07T21:27:40.214Z",
+    "badgeId": "5d87d4e6-5814-46b5-8cff-a7e04e726b13"
+  },
+  {
+    "_id": "mmgu8h9n-v4zek1bsx",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "Node.js API Development",
+    "industry": "IT / Software",
+    "overallScore": 83,
+    "passed": true,
+    "skillLevel": "Advanced",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 84,
+        "observation": "API endpoints follow RESTful conventions with proper HTTP methods."
+      },
+      "efficiency": {
+        "score": 81,
+        "observation": "Good use of async/await patterns. Middleware pipeline is well-structured."
+      },
+      "bestPractices": {
+        "score": 83,
+        "observation": "Error handling is present. Status codes are appropriate."
+      },
+      "problemSolving": {
+        "score": 82,
+        "observation": "Demonstrated ability to structure routes and controllers logically."
+      }
+    },
+    "strengths": [
+      "RESTful API design",
+      "Proper error handling",
+      "Clean middleware usage"
+    ],
+    "improvements": [
+      "Add input validation middleware",
+      "Consider API rate limiting"
+    ],
+    "employerSummary": "Candidate demonstrated advanced-level proficiency in Node.js API Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "Middleware",
+      "Error Handling"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772919057763-889183836.webm",
+    "createdAt": "2026-03-07T21:31:04.427Z",
+    "badgeId": "edc077a0-cca5-4821-9666-1e517000bc3b"
+  },
+  {
+    "_id": "mmgub6qq-8fre16vhl",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 96,
+    "passed": true,
+    "skillLevel": "Expert",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 98,
+        "observation": "Good component structure observed with proper use of functional components and hooks."
+      },
+      "efficiency": {
+        "score": 93,
+        "observation": "Code is reasonably efficient. Some optimization opportunities with memoization."
+      },
+      "bestPractices": {
+        "score": 97,
+        "observation": "Follows React conventions well. Clean JSX with proper key usage in lists."
+      },
+      "problemSolving": {
+        "score": 95,
+        "observation": "Demonstrated logical approach to building the UI component hierarchy."
+      }
+    },
+    "strengths": [
+      "Clean component architecture",
+      "Good understanding of React hooks",
+      "Readable code structure"
+    ],
+    "improvements": [
+      "Consider using TypeScript for type safety",
+      "Add error boundary handling"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772919180287-683732916.webm",
+    "createdAt": "2026-03-07T21:33:10.754Z",
+    "badgeId": "a8c15633-9d6e-4c3e-b473-a49209c52483"
+  },
+  {
+    "_id": "mmgucxji-qep3rpekc",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 76,
+    "passed": true,
+    "skillLevel": "Intermediate",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 77,
+        "observation": "Demonstrated solid technical understanding of the subject matter."
+      },
+      "efficiency": {
+        "score": 74,
+        "observation": "Completed the task in a reasonable timeframe with good efficiency."
+      },
+      "bestPractices": {
+        "score": 76,
+        "observation": "Followed industry-standard best practices throughout the demonstration."
+      },
+      "problemSolving": {
+        "score": 75,
+        "observation": "Showed logical problem-solving approach when facing challenges."
+      }
+    },
+    "strengths": [
+      "Solid technical fundamentals",
+      "Good problem-solving approach",
+      "Clean work methodology"
+    ],
+    "improvements": [
+      "Could explore more advanced techniques",
+      "Consider edge case handling"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in Circuit Wiring. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "Circuit",
+      "Problem Solving",
+      "Technical Skills"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772919261912-194732832.webm",
+    "createdAt": "2026-03-07T21:34:32.142Z",
+    "badgeId": "ed16f5e2-74b0-45ad-8363-ec77585c8c9a"
+  }
+]

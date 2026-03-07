@@ -1,0 +1,147 @@
+[
+  {
+    "_id": "mmgtaooz-jk0n314qu",
+    "badgeId": "ccb4dada-596b-411e-97d1-c22ec7ec80bf",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgtaooy-r1vkz4usu",
+    "candidateName": "Jesh",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 79,
+    "skillLevel": "Intermediate",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:04:47.747Z",
+    "createdAt": "2026-03-07T21:04:47.747Z"
+  },
+  {
+    "_id": "mmgtfr2f-fow0hdp7g",
+    "badgeId": "05cc98c2-4a43-48a1-9bc2-1ca0a843f5dc",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgtfr2e-96o8ar6ta",
+    "candidateName": "Jesh",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 96,
+    "skillLevel": "Expert",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:08:44.103Z",
+    "createdAt": "2026-03-07T21:08:44.103Z"
+  },
+  {
+    "_id": "mmgto9cu-nn07ursj0",
+    "badgeId": "96dbdff5-f682-4cb2-a195-950f354bd029",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgto9cs-ubxyhg8na",
+    "candidateName": "Jesh",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 95,
+    "skillLevel": "Expert",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:15:21.054Z",
+    "createdAt": "2026-03-07T21:15:21.054Z"
+  },
+  {
+    "_id": "mmgu43p3-nexsoyij8",
+    "badgeId": "5d87d4e6-5814-46b5-8cff-a7e04e726b13",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgu43p2-8i38bqimk",
+    "candidateName": "Jesh",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 75,
+    "skillLevel": "Intermediate",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:27:40.215Z",
+    "createdAt": "2026-03-07T21:27:40.215Z"
+  },
+  {
+    "_id": "mmgu8h9o-7iy0k6z4p",
+    "badgeId": "edc077a0-cca5-4821-9666-1e517000bc3b",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgu8h9n-v4zek1bsx",
+    "candidateName": "Jesh",
+    "skillName": "Node.js API Development",
+    "industry": "IT / Software",
+    "overallScore": 83,
+    "skillLevel": "Advanced",
+    "verifiedSkills": [
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "Middleware",
+      "Error Handling"
+    ],
+    "employerSummary": "Candidate demonstrated advanced-level proficiency in Node.js API Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:31:04.428Z",
+    "createdAt": "2026-03-07T21:31:04.428Z"
+  },
+  {
+    "_id": "mmgub6qr-zqcnc9zwq",
+    "badgeId": "a8c15633-9d6e-4c3e-b473-a49209c52483",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgub6qq-8fre16vhl",
+    "candidateName": "Jesh",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 96,
+    "skillLevel": "Expert",
+    "verifiedSkills": [
+      "React.js",
+      "Hooks",
+      "JSX",
+      "Component Design",
+      "CSS"
+    ],
+    "employerSummary": "Candidate demonstrated expert-level proficiency in React Frontend Development. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:33:10.755Z",
+    "createdAt": "2026-03-07T21:33:10.755Z"
+  },
+  {
+    "_id": "mmgucxjj-3g55kiklc",
+    "badgeId": "ed16f5e2-74b0-45ad-8363-ec77585c8c9a",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmgucxji-qep3rpekc",
+    "candidateName": "Jesh",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 76,
+    "skillLevel": "Intermediate",
+    "verifiedSkills": [
+      "Circuit",
+      "Problem Solving",
+      "Technical Skills"
+    ],
+    "employerSummary": "Candidate demonstrated intermediate-level proficiency in Circuit Wiring. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-07T21:34:32.143Z",
+    "createdAt": "2026-03-07T21:34:32.143Z"
+  }
+]

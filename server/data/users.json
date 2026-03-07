@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "mmgssjie-e7i252khr",
+    "name": "Test",
+    "email": "test@test.com",
+    "password": "$2a$12$v/.TmO.N7qjfSTRRA63DZu8NxX0LRZVMtpUb6EDWIFqBdAVDLGd62",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-07T20:50:41.222Z"
+  },
+  {
+    "_id": "mmgsw31w-dye0byl33",
+    "name": "Jesh",
+    "email": "jesh.mahun@gmail.com",
+    "password": "$2a$12$nbGXtW5yYg54b/I5sT4Rhu9gEBloWNSfKt63NHnkqba3a0HEIgzMO",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-07T20:53:26.516Z"
+  },
+  {
+    "_id": "mmgszzry-xfjfqf3kz",
+    "name": "Jesh",
+    "email": "dongdevil10@gmail.com",
+    "password": "$2a$12$YjXsfMjgGtJM26.QMi0gMOxm0/jnPsfWyiXqUO70xL3Ci4XAA60hy",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-07T20:56:28.894Z"
+  },
+  {
+    "_id": "mmgt8jfo-zf8emuowy",
+    "name": "TestUser",
+    "email": "test2@test.com",
+    "password": "$2a$12$ic1DCUL9REQOJJd2dtNpeO7EQSvhBcGJEODYKSFCkm3FN1Vi.R5uu",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-07T21:03:07.620Z"
+  }
+]
