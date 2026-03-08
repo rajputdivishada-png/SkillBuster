@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import CustomCursor from './components/CustomCursor';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -32,6 +33,7 @@ function ProtectedRoute({ children, role }) {
 function AppRoutes() {
     return (
         <>
+            <CustomCursor />
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
