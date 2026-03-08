@@ -577,5 +577,88 @@
     "analyzedBy": "gemini-2.5-flash",
     "isGeminiAnalysis": true,
     "createdAt": "2026-03-08T17:06:02.924Z"
+  },
+  {
+    "_id": "mmi18bx9-tudp43wbl",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 65,
+    "passed": false,
+    "skillLevel": "Intermediate",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 90,
+        "observation": "The candidate demonstrates excellent technique in stripping wires, twisting strands, crimping lug connectors, and applying heat shrink tubing correctly."
+      },
+      "efficiency": {
+        "score": 80,
+        "observation": "The candidate performs each step deliberately and efficiently, using the correct tools without unnecessary pauses or fumbling."
+      },
+      "bestPractices": {
+        "score": 85,
+        "observation": "Good practices are observed, including bundling wires neatly with zip ties, twisting strands before crimping, using a proper crimping tool, and insulating connections with heat shrink."
+      },
+      "problemSolving": {
+        "score": 30,
+        "observation": "The video does not present any problems or challenges for the candidate to solve, so this dimension cannot be fully assessed."
+      }
+    },
+    "strengths": [
+      "Precise wire stripping and preparation.",
+      "Correct use of crimping tools for secure connections.",
+      "Effective application of heat shrink for insulation and neatness.",
+      "Organized handling of wire bundles."
+    ],
+    "improvements": [
+      "Demonstrate the ability to interpret and follow a circuit diagram.",
+      "Include the connection of multiple components to form a complete circuit.",
+      "Show functional testing of the wired circuit.",
+      "Explain safety precautions taken before and during the wiring process."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:00",
+        "description": "The video only demonstrates a specific sub-task (cable termination) within the broader skill of 'Circuit Wiring' and does not cover aspects like circuit design, component connection, or functional testing.",
+        "severity": "major",
+        "suggestion": "To fully demonstrate 'Circuit Wiring,' the candidate should include steps such as reading a circuit diagram, connecting various electrical components, routing the wires within a system, and performing continuity or functional tests on the completed circuit."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:05",
+        "event": "Wire insulation stripping"
+      },
+      {
+        "time": "0:07",
+        "event": "Twisting wire strands"
+      },
+      {
+        "time": "0:10",
+        "event": "Inserting wire into lug connector"
+      },
+      {
+        "time": "0:23",
+        "event": "Crimping lug connector onto wire"
+      },
+      {
+        "time": "0:30",
+        "event": "Applying heat shrink tubing"
+      },
+      {
+        "time": "0:34",
+        "event": "Heating heat shrink tubing"
+      }
+    ],
+    "employerSummary": "The candidate exhibits strong practical skills in cable termination, including wire stripping, crimping, and insulation, which are fundamental to circuit wiring. However, the demonstration is limited to this specific sub-task and does not cover the complete spectrum of circuit wiring, such as circuit design interpretation, component integration, or full circuit testing.",
+    "verifiedSkills": [
+      "Cable Termination",
+      "Wire Stripping",
+      "Crimping"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772991249195-110792109.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T17:34:40.989Z"
   }
 ]
