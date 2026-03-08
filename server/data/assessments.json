@@ -325,5 +325,178 @@
     "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772919261912-194732832.webm",
     "createdAt": "2026-03-07T21:34:32.142Z",
     "badgeId": "ed16f5e2-74b0-45ad-8363-ec77585c8c9a"
+  },
+  {
+    "_id": "mmhio70a-choh891xi",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 82,
+    "passed": true,
+    "skillLevel": "Advanced",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 83,
+        "observation": "Demonstrated solid technical understanding of the subject matter."
+      },
+      "efficiency": {
+        "score": 80,
+        "observation": "Completed the task in a reasonable timeframe with good efficiency."
+      },
+      "bestPractices": {
+        "score": 82,
+        "observation": "Followed industry-standard best practices throughout the demonstration."
+      },
+      "problemSolving": {
+        "score": 81,
+        "observation": "Showed logical problem-solving approach when facing challenges."
+      }
+    },
+    "strengths": [
+      "Solid technical fundamentals",
+      "Good problem-solving approach",
+      "Clean work methodology"
+    ],
+    "improvements": [
+      "Could explore more advanced techniques",
+      "Consider edge case handling"
+    ],
+    "employerSummary": "Candidate demonstrated advanced-level proficiency in Circuit Wiring. Shows strong potential and is recommended for relevant roles.",
+    "verifiedSkills": [
+      "Circuit",
+      "Problem Solving",
+      "Technical Skills"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772960094260-914953629.webm",
+    "createdAt": "2026-03-08T08:55:08.410Z",
+    "badgeId": "ee88aa62-d3bf-4e94-9860-cf465f78e65c"
+  },
+  {
+    "_id": "mmhmbpyr-w1ifrj44o",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 15,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 10,
+        "observation": "The video does not display any React frontend development code or technical implementation, making it impossible to assess technical accuracy in this domain."
+      },
+      "efficiency": {
+        "score": 10,
+        "observation": "No React frontend development tasks were performed or demonstrated, so efficiency cannot be evaluated based on the video content."
+      },
+      "bestPractices": {
+        "score": 10,
+        "observation": "There is no visible React frontend code to evaluate against best practices."
+      },
+      "problemSolving": {
+        "score": 10,
+        "observation": "The video solely shows navigation through backend and data files; no frontend problem-solving scenario was presented or addressed."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "Ensure the video content directly demonstrates the specified skill 'React Frontend Development' by showing actual React code development and execution.",
+      "Perform tasks related to component creation, state management, prop drilling, or API calls within a React application to properly showcase the skill."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:02",
+        "description": "The video claims to demonstrate 'React Frontend Development' but only shows navigation and viewing of backend schema definitions, JSON data, and server-side environment variables in VS Code. No React components, JSX, styling, or browser interaction for a frontend application is visible.",
+        "severity": "critical",
+        "suggestion": "To demonstrate 'React Frontend Development', the candidate should focus on writing, debugging, and showcasing actual React components, state management, API integration, and user interface interactions within a browser."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Windows Start Menu opened"
+      },
+      {
+        "time": "0:02",
+        "event": "VS Code opened, showing `server/models/Badge.js` (Mongoose schema)"
+      },
+      {
+        "time": "0:06",
+        "event": "Navigated to `server/data/assessments.json` (JSON data file)"
+      },
+      {
+        "time": "0:21",
+        "event": "Navigated to `server/.env` (environment variables)"
+      }
+    ],
+    "employerSummary": "The candidate submitted a video for 'React Frontend Development,' but the content displayed was entirely unrelated to frontend work. The video primarily showcased navigating backend model schemas, JSON data files, and environment configurations in VS Code, making it impossible to assess any React frontend development capabilities.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772966212727-554869488.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T10:37:24.915Z"
+  },
+  {
+    "_id": "mmhmxkwm-14tb920b1",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 15,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "No technical work related to React Frontend Development was shown in the video."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "No relevant development work was performed to assess efficiency."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "No relevant development work was performed to assess best practices."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No problem-solving related to React Frontend Development was demonstrated."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "The candidate needs to focus on performing and recording actual React Frontend Development tasks for the assessment.",
+      "Ensure the development environment (IDE, browser console) is clearly visible during the recording to showcase coding skills."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:00 - 0:20",
+        "description": "The candidate failed to demonstrate any 'React Frontend Development' skills. The video exclusively shows the candidate browsing and watching a video on YouTube, which is irrelevant to the claimed skill.",
+        "severity": "critical",
+        "suggestion": "The candidate must record a session actively demonstrating React frontend development skills, such as building components, using hooks, managing state, or integrating with APIs, within a development environment."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Screen recording initiated for 'React Frontend Development' on SkillProof platform."
+      },
+      {
+        "time": "0:01",
+        "event": "User navigates to YouTube and searches for 'micky mouse in hindi'."
+      },
+      {
+        "time": "0:02",
+        "event": "User opens and watches a YouTube short titled 'WHERE IS SPARKY?'."
+      },
+      {
+        "time": "0:20",
+        "event": "User navigates back to the SkillProof recording interface."
+      }
+    ],
+    "employerSummary": "The candidate initiated a screen recording session for 'React Frontend Development' but did not demonstrate any related skills. The video primarily consisted of the candidate browsing YouTube and watching a cartoon, rendering it impossible to assess their competence in React frontend development.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772967241554-491684520.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T10:54:24.790Z"
   }
 ]

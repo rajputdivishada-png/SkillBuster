@@ -154,7 +154,15 @@ export default function RecordTask() {
             }
             navigate(`/results/${data.assessment._id}`);
         } catch (err) {
-            toast.error(err.response?.data?.message || 'Assessment failed. Please try again.');
+            const errorData = err.response?.data;
+            const errorMsg = errorData?.error || errorData?.message || 'Assessment failed.';
+
+            if (errorData?.retryable) {
+                toast.error(errorMsg, { duration: 8000 });
+                toast('You can try again in a few moments.', { icon: '💡', duration: 5000 });
+            } else {
+                toast.error(errorMsg);
+            }
         } finally {
             setIsSubmitting(false);
         }

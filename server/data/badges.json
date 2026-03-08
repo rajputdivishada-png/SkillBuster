@@ -143,5 +143,24 @@
     "employerSummary": "Candidate demonstrated intermediate-level proficiency in Circuit Wiring. Shows strong potential and is recommended for relevant roles.",
     "issuedAt": "2026-03-07T21:34:32.143Z",
     "createdAt": "2026-03-07T21:34:32.143Z"
+  },
+  {
+    "_id": "mmhio70c-wrcpv98lj",
+    "badgeId": "ee88aa62-d3bf-4e94-9860-cf465f78e65c",
+    "candidateId": "mmgszzry-xfjfqf3kz",
+    "assessmentId": "mmhio70a-choh891xi",
+    "candidateName": "Jesh",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 82,
+    "skillLevel": "Advanced",
+    "verifiedSkills": [
+      "Circuit",
+      "Problem Solving",
+      "Technical Skills"
+    ],
+    "employerSummary": "Candidate demonstrated advanced-level proficiency in Circuit Wiring. Shows strong potential and is recommended for relevant roles.",
+    "issuedAt": "2026-03-08T08:55:08.411Z",
+    "createdAt": "2026-03-08T08:55:08.412Z"
   }
 ]
