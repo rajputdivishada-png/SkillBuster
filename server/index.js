@@ -27,6 +27,7 @@ const assessRoutes = require('./routes/assess');
 const badgeRoutes = require('./routes/badge');
 const verifyRoutes = require('./routes/verify');
 const candidateRoutes = require('./routes/candidates');
+const leaderboardRoutes = require('./routes/leaderboard');
 const { getSkillCategories } = require('./prompts/skillRubrics');
 
 app.use('/api/auth', authRoutes);
@@ -34,6 +35,7 @@ app.use('/api/assess', assessRoutes);
 app.use('/api/badge', badgeRoutes);
 app.use('/api/verify', verifyRoutes);
 app.use('/api/candidates', candidateRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // GET /api/skills — Get available skill categories
 app.get('/api/skills', (req, res) => {

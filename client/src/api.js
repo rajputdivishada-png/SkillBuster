@@ -57,4 +57,7 @@ export const getSkills = () => API.get('/skills');
 // Candidates (employer)
 export const searchCandidates = (params) => API.get('/candidates', { params });
 
+// Leaderboard (public)
+export const getLeaderboard = () => API.get('/leaderboard');
+
 export default API;

@@ -12,6 +12,7 @@ import ScoreCardPage from './pages/ScoreCardPage';
 import BadgeView from './pages/BadgeView';
 import EmployerDashboard from './pages/EmployerDashboard';
 import VerifyBadge from './pages/VerifyBadge';
+import Leaderboard from './pages/Leaderboard';
 
 function ProtectedRoute({ children, role }) {
     const { user, loading } = useAuth();
@@ -39,6 +40,7 @@ function AppRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route
                     path="/dashboard"
                     element={

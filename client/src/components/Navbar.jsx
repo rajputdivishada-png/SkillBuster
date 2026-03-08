@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, LogOut, User, Briefcase } from 'lucide-react';
+import { Shield, LogOut, User, Briefcase, Trophy } from 'lucide-react';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
@@ -24,6 +24,13 @@ export default function Navbar() {
             </Link>
 
             <div className="navbar-links">
+                {/* Leaderboard link — always visible */}
+                <Link to="/leaderboard" className={isActive('/leaderboard')}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Trophy size={16} /> Leaderboard
+                    </span>
+                </Link>
+
                 {!user ? (
                     <>
                         <Link to="/login" className={isActive('/login')}>Login</Link>
