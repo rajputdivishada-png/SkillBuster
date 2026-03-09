@@ -167,6 +167,42 @@ CRITICAL FLAWS TO FLAG:
 - ADD instead of COPY for simple file operations
     `
   },
+  'C++ Scripting': {
+    industry: 'IT / Software',
+    dimensions: ['Syntax Correctness', 'Memory Management', 'OOP Principles', 'STL Usage', 'Code Efficiency'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code appearing in large blocks instantaneously (paste detection)
+- Typing speed that exceeds human capability (>150 WPM sustained with zero errors)
+- Cursor jumping to exact positions without scroll/search (pre-recorded script)
+- Code editor showing pre-written files being merely opened, not authored
+- Pre-compiled binaries being run without showing source code authoring
+- Tab-switching to solutions/answers pages during the task
+
+TECHNICAL EVALUATION POINTS:
+- Correct C++ syntax (semicolons, braces, includes)
+- Proper memory management (new/delete, smart pointers, RAII pattern)
+- Appropriate use of STL containers (vector, map, set, unordered_map)
+- Object-Oriented principles (encapsulation, inheritance, polymorphism)
+- const correctness and reference usage
+- Proper header/source file separation
+- Use of modern C++ features (C++11/14/17/20): auto, range-based for, lambdas
+- Compilation and execution without errors or warnings
+- Input validation and edge case handling
+
+CRITICAL FLAWS TO FLAG:
+- Memory leaks (new without delete, no smart pointers)
+- Using raw pointers where smart pointers should be used
+- Buffer overflows (array out-of-bounds access)
+- Undefined behavior (dangling pointers, use-after-free)
+- Using C-style arrays instead of std::vector/std::array
+- Using printf/scanf instead of cin/cout (mixing C and C++)
+- Missing virtual destructors in base classes with virtual functions
+- Not using const references for large objects passed to functions
+- Global variables instead of proper encapsulation
+- No error handling for file I/O or user input
+    `
+  },
   'Wound Dressing': {
     industry: 'Healthcare',
     dimensions: ['Technique Accuracy', 'Hygiene Protocol', 'Material Selection', 'Patient Communication', 'Speed'],

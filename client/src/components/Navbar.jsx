@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, LogOut, User, Briefcase, Trophy } from 'lucide-react';
+import { Shield, LogOut, User, Briefcase, Trophy, BarChart3 } from 'lucide-react';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
@@ -43,6 +43,11 @@ export default function Navbar() {
                                 <User size={16} /> Dashboard
                             </span>
                         </Link>
+                        <Link to="/analytics" className={isActive('/analytics')}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <BarChart3 size={16} /> Analytics
+                            </span>
+                        </Link>
                         <Link to="/record" className={isActive('/record')}>Record Task</Link>
                         <button onClick={handleLogout} className="nav-btn nav-btn-outline">
                             <LogOut size={16} /> Logout
@@ -53,6 +58,11 @@ export default function Navbar() {
                         <Link to="/employer" className={isActive('/employer')}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <Briefcase size={16} /> Dashboard
+                            </span>
+                        </Link>
+                        <Link to="/analytics" className={isActive('/analytics')}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <BarChart3 size={16} /> Analytics
                             </span>
                         </Link>
                         <button onClick={handleLogout} className="nav-btn nav-btn-outline">

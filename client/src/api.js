@@ -60,4 +60,8 @@ export const searchCandidates = (params) => API.get('/candidates', { params });
 // Leaderboard (public)
 export const getLeaderboard = () => API.get('/leaderboard');
 
+// Analytics
+export const getAnalyticsCandidate = () => API.get('/analytics/candidate');
+export const getAnalyticsTalent = (skill) => API.get('/analytics/talent', { params: skill ? { skill } : {} });
+
 export default API;

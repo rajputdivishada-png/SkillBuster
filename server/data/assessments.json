@@ -1080,5 +1080,185 @@
     },
     "integrityFlagged": true,
     "createdAt": "2026-03-09T13:27:11.290Z"
+  },
+  {
+    "_id": "mmj9hu2u-kogl5gdkx",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 20,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "The candidate demonstrated basic Python arithmetic operations. No React-specific technical concepts, syntax, or functionalities were observed, making it irrelevant to the claimed skill."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "No React development tasks were performed, making it impossible to assess efficiency within a React frontend development context."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "No React frontend development best practices, such as component reusability, state management patterns, or proper rendering techniques, were demonstrated as the task was performed in Python."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "The video showcased a simple Python script for arithmetic calculations. No complex frontend problem-solving or React-specific challenges were presented or addressed."
+      }
+    },
+    "strengths": [
+      "Clear verbal narration of the Python code's purpose.",
+      "Successful execution of the basic Python arithmetic program without errors."
+    ],
+    "improvements": [
+      "The primary improvement required is to demonstrate skills directly applicable to 'React Frontend Development' using appropriate technologies (e.g., JavaScript, JSX, React libraries).",
+      "Focus on creating interactive user interfaces, managing component state, and utilizing React hooks.",
+      "Ensure the development environment and programming language used align with the declared skill."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:01",
+        "description": "The entire video content demonstrates basic Python programming, which is completely irrelevant to the claimed skill of 'React Frontend Development'.",
+        "severity": "critical",
+        "suggestion": "The candidate must provide a video demonstrating actual React Frontend Development skills, including building components, managing state, using hooks, and implementing UI interactions."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:01",
+        "event": "Candidate opens Python Online Compiler"
+      },
+      {
+        "time": "0:21",
+        "event": "Candidate defines variable 'x' for user input"
+      },
+      {
+        "time": "0:47",
+        "event": "Candidate defines variable 'y' for user input"
+      },
+      {
+        "time": "1:07",
+        "event": "Candidate starts adding print statements for arithmetic operations"
+      },
+      {
+        "time": "3:25",
+        "event": "Candidate clicks 'Run' to execute the Python script"
+      },
+      {
+        "time": "3:34",
+        "event": "Candidate inputs '4' for the first number"
+      },
+      {
+        "time": "3:37",
+        "event": "Candidate inputs '4' for the second number and views output"
+      }
+    ],
+    "employerSummary": "The candidate submitted a video claiming 'React Frontend Development' skills, but the content demonstrated basic arithmetic operations in Python. No evidence of React-specific programming, component development, or frontend practices was observed, making it impossible to assess the claimed React skill.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773065556945-773548069.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": false,
+    "createdAt": "2026-03-09T14:13:47.527Z"
+  },
+  {
+    "_id": "mmjhrutc-li85vbsot",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Circuit Wiring",
+    "industry": "Electrical / ITI",
+    "overallScore": 0,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "The candidate did not demonstrate any circuit wiring technical accuracy, as they merely played a pre-recorded video of someone else performing the task."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "No efficiency could be assessed as the candidate did not perform the skill. The efficiency observed in the played video cannot be attributed to the candidate."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "Best practices for circuit wiring could not be evaluated for the candidate, as they presented a video created by someone else."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No problem-solving skills related to circuit wiring were demonstrated by the candidate."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "The candidate must actively demonstrate the 'Circuit Wiring' skill in real-time, performing the actions themselves rather than showing a pre-recorded video.",
+      "Ensure all steps of the wiring process, from preparation to testing, are clearly visible and performed by the candidate."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:07",
+        "description": "The candidate did not perform the 'Circuit Wiring' skill themselves. Instead, they played a pre-recorded video showing someone else performing the task.",
+        "severity": "critical",
+        "suggestion": "The candidate must personally demonstrate the claimed skill live on camera to allow for a proper assessment of their abilities."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Screen recording starts, candidate is on a Google Meet call."
+      },
+      {
+        "time": "0:04",
+        "event": "Candidate minimizes the browser and shows desktop."
+      },
+      {
+        "time": "0:06",
+        "event": "Candidate opens a local media player and starts playing a video."
+      },
+      {
+        "time": "0:07",
+        "event": "Video shows hands cutting and crimping wires."
+      },
+      {
+        "time": "0:09",
+        "event": "Candidate fast-forwards the played video."
+      },
+      {
+        "time": "0:12",
+        "event": "Video shows close-up of crimping a terminal."
+      },
+      {
+        "time": "0:29",
+        "event": "Candidate stops the video playback."
+      },
+      {
+        "time": "0:31",
+        "event": "Candidate returns to the SkillProof platform."
+      }
+    ],
+    "employerSummary": "The candidate attempted to present the 'Circuit Wiring' skill by sharing their screen and playing a pre-recorded video of someone else performing the task. No personal demonstration of the skill was observed, preventing any assessment of their competency. ⚠️ INTEGRITY ALERT: This submission was flagged for proxy/identity fraud. Manual review recommended.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773079501465-862549961.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": true,
+      "proxyEvidence": "The candidate (identified as 'Ghost Killer' in Google Meet) is presenting a pre-recorded video of someone else's hands performing the wiring task, starting from 0:07. The candidate is not actively performing the skill themselves."
+    },
+    "integrityFlagged": true,
+    "createdAt": "2026-03-09T18:05:31.968Z"
   }
 ]
