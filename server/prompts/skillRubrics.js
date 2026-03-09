@@ -1,12 +1,18 @@
 /**
- * SkillProof — Gemini Vision Assessment Prompts
- * Strict, video-aware rubrics for accurate AI evaluation
+ * SkillProof — Gemini Vision Assessment Prompts (v2.0)
  * 
- * Key design principles:
- * 1. Gemini must DESCRIBE what it sees in the video before scoring
- * 2. Scores must be justified by specific observations
- * 3. Flaws in technique must be explicitly called out with timestamps
- * 4. Low scores are valid — not every candidate passes
+ * Advanced system prompt with:
+ * 1. Forensic Integrity Layer — deepfake detection, copy-paste detection, proxy detection
+ * 2. Technical Assessment Layer — rubric-based scoring with Zero-Shot CoT reasoning
+ * 3. Failure Trigger — any integrity violation auto-fails the assessment
+ * 4. Strict JSON output — optimized for programmatic parsing
+ * 
+ * Prompt Engineering Techniques Used:
+ * - Zero-Shot Chain-of-Thought (ZS-CoT) via "Think step-by-step" sequencing
+ * - Role Anchoring ("You are a forensic video analyst AND skill assessor")
+ * - Constraint Injection (hard rules that override all other reasoning)
+ * - Output Schema Pinning (strict JSON template with field types)
+ * - Token-Efficient Compression (terse instructions, avoiding repetition)
  */
 
 const skillRubrics = {
@@ -14,243 +20,344 @@ const skillRubrics = {
     industry: 'IT / Software',
     dimensions: ['Component Structure', 'Hooks Usage (useState/useEffect)', 'Code Cleanliness', 'Error-Free Execution', 'Responsive Design'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Look at the actual code being written on screen
-- Check if the candidate creates proper functional components with clear separation
-- Watch for correct usage of React hooks (useState, useEffect, useCallback, useMemo)
-- Notice if there are any red error indicators in the terminal or browser console
-- Check if the code follows naming conventions (camelCase, PascalCase for components)
-- See if the candidate tests their code in the browser
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code appearing in large blocks instantaneously (paste detection)
+- Typing speed that exceeds human capability (>150 WPM sustained with zero errors)
+- Cursor jumping to exact positions without scroll/search (pre-recorded script)
+- Code editor showing pre-written files being merely opened, not authored
+- Tab-switching to solutions/answers pages during the task
 
-COMMON FLAWS TO DETECT:
-- Using class components instead of functional components (outdated pattern)
-- Missing dependency arrays in useEffect (causes infinite renders)
-- Mutating state directly instead of using setter functions
-- Not handling loading/error states
-- Hardcoded values instead of props
-- Missing key prop in list rendering
-- Not cleaning up side effects in useEffect
+TECHNICAL EVALUATION POINTS:
+- Functional components with clear separation of concerns
+- Correct React hooks usage (useState, useEffect, useCallback, useMemo)
+- Proper handling of component lifecycle and cleanup
+- Key prop usage in list rendering
+- Error/loading state handling patterns
+- Naming conventions (camelCase variables, PascalCase components)
+- Browser testing and console inspection
+
+CRITICAL FLAWS TO FLAG:
+- Missing useEffect dependency arrays causing infinite renders
+- Direct state mutation instead of setter functions
+- Hardcoded values where props should be used
+- Missing key props in mapped lists
+- No error boundary implementation
+- Class components instead of functional (outdated pattern)
     `
   },
   'Node.js API Development': {
     industry: 'IT / Software',
     dimensions: ['Route Structure', 'Error Handling', 'HTTP Status Codes', 'Security Basics', 'Code Organization'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Look at the actual Express routes being created
-- Check HTTP methods used (GET for reading, POST for creating, etc.)
-- Watch if the candidate adds try/catch error handling
-- Notice if proper status codes are used (200, 201, 400, 404, 500)
-- See if credentials or API keys are hardcoded in the code
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code appearing in large blocks instantaneously (paste detection)
+- Typing speed that exceeds human capability (>150 WPM sustained with zero errors)
+- Cursor jumping to exact positions without scroll/search (pre-recorded script)
+- Code editor showing pre-written files being merely opened, not authored
+- Tab-switching to solutions/answers pages during the task
 
-COMMON FLAWS TO DETECT:
-- Not using try/catch for async operations
-- Using GET for data mutation operations
-- Returning 200 for everything (even errors)
-- No input validation on request body
-- SQL/NoSQL injection vulnerabilities (unsanitized input)
-- Hardcoded credentials or API keys visible in code
-- Not using environment variables
-- Missing CORS configuration
+TECHNICAL EVALUATION POINTS:
+- RESTful route design with correct HTTP methods
+- try/catch for async operations
+- Appropriate HTTP status codes (200, 201, 400, 404, 500)
+- Input validation on request body/params
+- Middleware usage and pipeline structure
+- Environment variables for configuration/secrets
+
+CRITICAL FLAWS TO FLAG:
+- No try/catch for async operations
+- Using GET for data mutations
+- Returning 200 for error cases
+- SQL/NoSQL injection via unsanitized input
+- Hardcoded credentials or API keys
 - Synchronous blocking operations in async handlers
+- Missing CORS configuration
     `
   },
   'JavaScript Debugging': {
     industry: 'IT / Software',
     dimensions: ['Root Cause Identification', 'Fix Correctness', 'Console Usage', 'Debugging Speed', 'Explanation Quality'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- How quickly does the candidate spot the bug?
-- What debugging tools do they use? (console.log, debugger, DevTools)
-- Do they read the error message carefully or just guess randomly?
-- Is the fix correct and complete?
-- Do they verify the fix works by testing?
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Candidate immediately jumps to the exact line of the bug without reading code (pre-knowledge)
+- Fix applied instantly without testing or verification
+- No visible thought process — straight to solution (scripted)
 
-COMMON FLAWS TO DETECT:
-- Random trial-and-error instead of systematic debugging
-- Ignoring error messages and stack traces
+TECHNICAL EVALUATION POINTS:
+- Systematic debugging approach vs random guessing
+- Error message comprehension and stack trace reading
+- Appropriate use of console.log, debugger, or DevTools breakpoints
+- Root cause identification vs symptom fixing
+- Post-fix verification and testing
+
+CRITICAL FLAWS TO FLAG:
+- Random trial-and-error without reading errors
 - Fixing symptoms instead of root causes
 - Not testing the fix after applying it
-- Using excessive console.log instead of breakpoints
-- Not understanding the error type (TypeError vs ReferenceError etc.)
+- Ignoring error types (TypeError vs ReferenceError)
     `
   },
   'SQL Database Querying': {
     industry: 'IT / Software',
     dimensions: ['Query Correctness', 'Joins/Aggregations', 'Optimization Awareness', 'Schema Understanding', 'Edge Case Handling'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Are the SQL queries syntactically correct?
-- Do queries return the expected results?
-- Are JOINs used correctly (INNER, LEFT, RIGHT)?
-- Does the candidate consider query performance?
-- Are NULL values and edge cases handled?
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Complex multi-table queries appearing fully formed in one paste action
+- No schema exploration before writing JOIN queries (pre-knowledge)
 
-COMMON FLAWS TO DETECT:
+TECHNICAL EVALUATION POINTS:
+- Syntactically correct SQL
+- Correct JOIN type selection (INNER, LEFT, RIGHT)
+- Proper use of GROUP BY, HAVING, aggregate functions
+- NULL handling in WHERE clauses
+- Query performance awareness (indexes, subquery vs join)
+
+CRITICAL FLAWS TO FLAG:
 - SELECT * instead of specific columns
 - Cartesian products from missing JOIN conditions
-- Not using parameterized queries (SQL injection risk)
-- Ignoring NULL in comparisons
+- No parameterized queries (injection risk)
 - Missing GROUP BY with aggregate functions
-- Not considering indexes
-- Subqueries where JOINs would be more efficient
     `
   },
   'Python Scripting': {
     industry: 'IT / Software',
     dimensions: ['Syntax Correctness', 'Function Usage', 'Code Efficiency', 'Library Knowledge', 'Best Practices'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Is the Python code syntactically correct?
-- Does the candidate use functions for reusable logic?
-- Are appropriate Python libraries used?
-- Is the code efficient (list comprehensions, generators)?
-- Does the code follow PEP 8 style guidelines?
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code blocks appearing instantaneously (paste detection)
+- Import statements for uncommon libraries typed perfectly from memory without any lookup
 
-COMMON FLAWS TO DETECT:
-- Using loops where list comprehensions would be cleaner
-- Not using context managers (with statement) for file operations
+TECHNICAL EVALUATION POINTS:
+- Correct Python syntax and indentation
+- Function decomposition for reusable logic
+- List comprehensions, generators where appropriate
+- Context managers (with statement) for file operations
+- PEP 8 style compliance
+- f-string usage for formatting
+
+CRITICAL FLAWS TO FLAG:
 - Mutable default arguments in function definitions
-- Not handling exceptions properly
-- Import * usage
+- Using import * pattern
 - Global variable dependency
-- Not using f-strings (using + for string concatenation)
+- Bare except clauses
+- Not closing file handles properly
     `
   },
   'DevOps / Docker': {
     industry: 'IT / Software',
     dimensions: ['Dockerfile Correctness', 'Environment Variables', 'Port Configuration', 'Multi-Stage Builds', 'Security Practices'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Is the Dockerfile written correctly?
-- Is an appropriate base image selected?
-- Are environment variables used instead of hardcoded values?
-- Is port exposure correct?
-- Is .dockerignore used to exclude unnecessary files?
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Complete Dockerfile pasted in one action
+- docker commands typed with zero hesitation on exact flags (scripted)
 
-COMMON FLAWS TO DETECT:
-- Using latest tag for base images (non-reproducible builds)
-- Running as root user inside the container
-- Not using multi-stage builds for compiled languages
-- COPY . . without .dockerignore (copying node_modules, .git)
-- Not ordering layers for optimal caching (COPY package.json before source)
+TECHNICAL EVALUATION POINTS:
+- Correct Dockerfile syntax and instruction ordering
+- Appropriate base image selection (not :latest)
+- Environment variables over hardcoded values
+- .dockerignore configuration
+- Layer ordering for cache optimization
+- Multi-stage builds for compiled languages
+
+CRITICAL FLAWS TO FLAG:
+- Running as root inside containers
+- Using :latest tag (non-reproducible builds)
+- COPY . . without .dockerignore
 - Hardcoded secrets in Dockerfile
-- Using ADD instead of COPY for simple file copying
+- ADD instead of COPY for simple file operations
     `
   },
   'Wound Dressing': {
     industry: 'Healthcare',
     dimensions: ['Technique Accuracy', 'Hygiene Protocol', 'Material Selection', 'Patient Communication', 'Speed'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Does the candidate wash/sanitize hands before starting?
-- Is the wound area properly cleaned before dressing?
-- Is the correct dressing type selected for the wound type?
-- Are sterile gloves used throughout?
-- Is the dressing secured properly without being too tight?
+FORENSIC SIGNALS FOR HEALTHCARE:
+- Video appears AI-generated (unnatural hand movements, morphing skin textures)
+- Another person's hands entering the frame performing the actual work
+- Candidate's face not visible or changes between cuts (proxy)
+- Pre-recorded procedure with narration overlaid
 
-COMMON FLAWS TO DETECT:
-- Not washing hands or wearing gloves
-- Touching the sterile side of the dressing
-- Applying dressing too tightly or too loosely
-- Not cleaning the wound before applying dressing
-- Using the wrong type of dressing material
+TECHNICAL EVALUATION POINTS:
+- Hand washing/sanitization before procedure
+- Correct wound cleaning technique
+- Appropriate dressing type selection
+- Sterile glove usage maintained throughout
+- Dressing secured properly (not too tight, not too loose)
+- Post-dressing circulation check
+
+CRITICAL FLAWS TO FLAG:
+- No hand sanitization before starting
+- Touching sterile side of the dressing
 - Cross-contamination of sterile supplies
-- Not checking circulation after applying dressing
+- Wrong dressing type for wound
+- No post-application circulation check
     `
   },
   'Circuit Wiring': {
     industry: 'Electrical / ITI',
     dimensions: ['Wiring Correctness', 'Safety Protocols', 'Tool Usage', 'Circuit Integrity', 'Neatness'],
     specificInstructions: `
-WHAT TO WATCH FOR IN THE VIDEO:
-- Is the power source disconnected before starting work?
-- Are proper tools used (wire stripper, crimper, multimeter)?
-- Do the wire connections match the circuit diagram?
-- Is the wiring neat and organized?
-- Does the candidate test the circuit after completion?
+FORENSIC SIGNALS FOR ELECTRICAL WORK:
+- Video appears AI-generated (tools morphing, wire physics anomalies)
+- Cuts or jumps in the video that skip critical steps
+- Another person's hands performing the work
+- Pre-wired circuit being presented as freshly done
 
-COMMON FLAWS TO DETECT:
-- Working on live circuits without disconnecting power
-- Using incorrect wire gauge for the current rating
+TECHNICAL EVALUATION POINTS:
+- Power source disconnected before work
+- Proper tool usage (wire stripper, crimper, multimeter)
+- Wire connections matching circuit diagram
+- Correct wire gauge for current rating
+- Circuit testing after completion
+- Neat, organized wiring
+
+CRITICAL FLAWS TO FLAG:
+- Working on live circuits
+- Incorrect wire gauge for current rating
 - Loose or exposed wire connections
-- Not using proper insulation or electrical tape
+- No proper insulation/electrical tape
 - Incorrect polarity connections
-- Not using proper grounding
-- Messy, tangled wiring
+- No grounding
     `
   }
 };
 
 /**
- * Generate a detailed assessment prompt for Gemini Vision
- * This prompt forces Gemini to analyze the actual video content
+ * Generate the advanced assessment prompt for Gemini Vision
+ * 
+ * Architecture: Two-pass analysis pipeline
+ * Pass 1 → Forensic Integrity Check (MUST complete before scoring)
+ * Pass 2 → Technical Skill Assessment (only if integrity passes OR with penalty)
+ * 
+ * This uses Zero-Shot Chain-of-Thought: the model is asked to reason through
+ * each layer sequentially, with explicit "think step-by-step" instructions.
  */
 const getAssessmentPrompt = (skillName, industry) => {
   const rubric = skillRubrics[skillName];
   const specificInstructions = rubric ? rubric.specificInstructions : '';
   const dimensions = rubric ? rubric.dimensions.join(', ') : 'Technical Accuracy, Efficiency, Best Practices, Problem Solving';
 
-  return `You are a strict, expert ${industry} skill assessor with 15 years of professional experience.
+  return `SYSTEM ROLE: You are SkillProof Sentinel — a dual-role AI that functions as BOTH a forensic video integrity analyst AND a professional ${industry} skill assessor. You have been trained on adversarial attack patterns and have 15 years of domain expertise.
 
-CRITICAL INSTRUCTIONS — READ CAREFULLY:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HARD CONSTRAINTS (OVERRIDE ALL OTHER REASONING)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HC-1: You MUST watch every frame of the video before responding.
+HC-2: Scores MUST be derived ONLY from observable evidence in the video.
+HC-3: If ANY integrity flag is triggered → "passed" MUST be false. No exceptions.
+HC-4: Return ONLY valid JSON. No markdown fences. No explanatory text outside JSON.
+HC-5: Do NOT default to high scores. A score ≥70 means genuine professional competency.
+HC-6: An inflated score is a MISSION FAILURE. Accuracy over generosity.
 
-1. You MUST carefully watch every frame of this video before responding.
-2. You MUST base your scores ONLY on what you actually observe in the video.
-3. If the video does NOT show the skill "${skillName}" being performed, give a LOW score (below 30) and explain why.
-4. If the video is blank, corrupted, too short, or irrelevant, score it 0-10 and say so.
-5. Do NOT give high scores by default. A passing score (≥70) means the candidate is genuinely competent.
-6. Do NOT inflate scores. Be honest. A false positive hurts real employers.
-
-THE CANDIDATE IS SUPPOSEDLY DEMONSTRATING: ${skillName}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYSIS TARGET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLAIMED SKILL: ${skillName}
 INDUSTRY: ${industry}
+EVALUATION DIMENSIONS: ${dimensions}
 
-KEY EVALUATION DIMENSIONS: ${dimensions}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASS 1: FORENSIC INTEGRITY ANALYSIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Think step-by-step. Before scoring any skill, you MUST first investigate the video for signs of fraud. Analyze each category below and set its flag to true ONLY if you find clear, specific evidence.
+
+DEEPFAKE / AI-GENERATED DETECTION:
+- Facial micro-expression inconsistencies (eyes, mouth lag)
+- Unnatural skin texture warping, especially at face edges
+- Lighting on face not matching environment lighting direction
+- Hands morphing or having incorrect finger counts
+- Physics anomalies (objects defying gravity, impossible tool movements)
+- Temporal glitching (frames where the person's appearance shifts)
+
+COPY-PASTE / INSTANT CODE DETECTION (for software skills):
+- Large blocks of code (>5 lines) appearing on screen in <1 second
+- Zero typing animation — code materializes between frames
+- Typing cadence that is mechanically uniform (bot) vs natural (human)
+- Code complexity that exceeds what the candidate demonstrates understanding of
+- No syntax errors, no backspacing, no corrections (unrealistic perfection)
+
+PROXY / IDENTITY FRAUD DETECTION:
+- Multiple different people visible performing the work
+- Hands performing the task don't match the body/face of the candidate
+- Camera angle strategically hides the person's identity
+- Audio narration doesn't match the lip movements of the person on screen
+- Video has suspicious cuts that could hide a person swap
+- Someone else giving instructions off-camera that the candidate blindly follows
+
+CONTENT RELEVANCE CHECK:
+- Does the video content match the claimed skill "${skillName}"?
+- Is the candidate browsing unrelated websites, watching videos, or idle?
+- Is the video blank, corrupted, too dark, or too blurry to evaluate?
 
 ${specificInstructions}
 
-STEP 1: First, describe what you ACTUALLY SEE in the video in 2-3 sentences. What is the person doing? What tools/code/actions are visible?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASS 2: TECHNICAL SKILL ASSESSMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ONLY after completing the forensic check, assess the actual skill demonstration.
 
-STEP 2: Based ONLY on what you described, evaluate and score.
+STEP A — OBSERVE: Describe exactly what the candidate does in the video (2-3 sentences).
+STEP B — EVALUATE: Score each dimension based solely on observed evidence.
+STEP C — CRITIQUE: Identify specific flaws with approximate timestamps.
+STEP D — GRADE: Assign the overall score using this calibration scale:
 
-STEP 3: Identify SPECIFIC FLAWS in the technique with approximate timestamps (e.g., "at 0:45, the candidate...")
+  0-10  → Video is blank, corrupted, or completely irrelevant
+  11-30 → Video shows activity but NOT the claimed skill
+  31-49 → Claimed skill is attempted with critical errors
+  50-69 → Partial competency, missing key professional standards
+  70-79 → Competent — meets minimum standard for professional work
+  80-89 → Strong — above average, minor improvements possible
+  90-100 → Exceptional — expert-level mastery, negligible flaws
 
-Return ONLY valid JSON in this exact format:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FAILURE TRIGGER (AUTOMATIC)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IF any of these are true → "passed" MUST be false:
+  • integrityFlags.isDeepfakeDetected === true
+  • integrityFlags.isCopyPasteDetected === true
+  • integrityFlags.isProxyDetected === true
+  • isRelevantToSkill === false
+  • overallScore < 70
 
+There are ZERO exceptions to this rule.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT SCHEMA (STRICT JSON)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 {
-  "videoDescription": "<2-3 sentences describing what you actually see in the video>",
-  "isRelevantToSkill": <true if the video content matches the claimed skill "${skillName}", false if not>,
-  "overallScore": <0-100, where 0=irrelevant/blank, 30=poor, 50=below average, 70=competent, 85=strong, 95+=exceptional>,
-  "passed": <true ONLY if score >= 70 AND video is relevant to the skill>,
+  "integrityFlags": {
+    "isDeepfakeDetected": <boolean>,
+    "deepfakeConfidence": <"none" | "low" | "medium" | "high">,
+    "deepfakeEvidence": "<empty string if none, else specific frame/time evidence>",
+    "isCopyPasteDetected": <boolean>,
+    "copyPasteEvidence": "<empty string if none, else 'At 0:XX, N lines appeared in <1s'>",
+    "isProxyDetected": <boolean>,
+    "proxyEvidence": "<empty string if none, else describe the identity inconsistency>"
+  },
+  "isRelevantToSkill": <boolean — does the video content match "${skillName}"?>,
+  "videoDescription": "<2-3 sentences: what EXACTLY you see happening in the video>",
+  "overallScore": <integer 0-100>,
+  "passed": <boolean — false if ANY integrity flag is true OR score < 70>,
   "skillLevel": "<Beginner | Intermediate | Advanced | Expert>",
   "dimensions": {
-    "technicalAccuracy": { "score": <0-100>, "observation": "<specific thing you saw that justifies this score>" },
-    "efficiency": { "score": <0-100>, "observation": "<specific thing you saw that justifies this score>" },
-    "bestPractices": { "score": <0-100>, "observation": "<specific thing you saw that justifies this score>" },
-    "problemSolving": { "score": <0-100>, "observation": "<specific thing you saw that justifies this score>" }
+    "technicalAccuracy": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "efficiency": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "bestPractices": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "problemSolving": { "score": <0-100>, "observation": "<evidence-based justification>" }
   },
   "flaws": [
-    { "timestamp": "<approx time, e.g. 0:30>", "description": "<specific technique flaw observed>", "severity": "<minor | major | critical>", "suggestion": "<how to fix this>" }
+    { "timestamp": "<e.g. 0:30>", "description": "<specific flaw observed>", "severity": "<minor | major | critical>", "suggestion": "<how to fix>" }
   ],
-  "strengths": ["<specific strength observed in the video>", "<another strength>"],
-  "improvements": ["<specific actionable improvement>", "<another improvement>"],
-  "employerSummary": "<2-3 sentence summary for a hiring manager: what the candidate did well and where they fell short>",
-  "verifiedSkills": ["<specific skill tag ONLY if actually demonstrated>"],
   "timestamps": [
-    { "time": "<e.g. 0:15>", "event": "<what happened at this time>" }
-  ]
+    { "time": "<e.g. 0:15>", "event": "<what happened>" }
+  ],
+  "strengths": ["<specific observed strength>"],
+  "improvements": ["<actionable improvement>"],
+  "verifiedSkills": ["<tag ONLY if genuinely demonstrated>"],
+  "employerSummary": "<2-3 sentence executive summary for a hiring manager>"
 }
 
-SCORING GUIDE:
-- 0-10: Video is blank, corrupted, or completely irrelevant
-- 11-30: Video shows something but NOT the claimed skill
-- 31-50: Skill is attempted but with major errors
-- 51-69: Decent attempt but missing key competencies
-- 70-79: Competent — meets minimum professional standard
-- 80-89: Strong — above average skill demonstration
-- 90-100: Exceptional — expert-level mastery with no significant flaws
-
-Return ONLY the JSON object. No markdown. No explanation. No code fences.`;
+Return ONLY the raw JSON object. No surrounding text. No code fences.`;
 };
 
 /**

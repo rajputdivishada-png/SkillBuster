@@ -38,5 +38,15 @@
     "skills": [],
     "bio": "",
     "createdAt": "2026-03-07T21:03:07.620Z"
+  },
+  {
+    "_id": "mmi4rk44-gmin4tlz3",
+    "name": "leon ",
+    "email": "dongdevil1010@gmail.com",
+    "password": "$2a$12$O21.xYt.mHG4x.U6FqT3.uxmUUY0Itwxzy1dm.gPE9aTYN7C8GHGe",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-08T19:13:36.916Z"
   }
 ]

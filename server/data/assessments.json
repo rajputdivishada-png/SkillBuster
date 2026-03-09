@@ -660,5 +660,425 @@
     "analyzedBy": "gemini-2.5-flash",
     "isGeminiAnalysis": true,
     "createdAt": "2026-03-08T17:34:40.989Z"
+  },
+  {
+    "_id": "mmi4t2i2-q3wal8h4n",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Python Scripting",
+    "industry": "IT / Software",
+    "overallScore": 15,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "No Python scripting or code was displayed, therefore technical accuracy cannot be assessed."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "No Python code was shown, making it impossible to evaluate code efficiency."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "No Python code was presented to assess adherence to best practices."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No problem-solving scenario related to Python scripting was presented or attempted."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "The candidate needs to actively perform Python scripting tasks, write Python code, or demonstrate knowledge of Python libraries and concepts.",
+      "Ensure the content of the video directly aligns with the selected skill category."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:02",
+        "description": "The candidate selected 'Python Scripting' as the skill category but proceeded to search for and view content related to 'JavaScript scripting' and 'HTML'.",
+        "severity": "critical",
+        "suggestion": "The candidate must demonstrate actual Python scripting relevant to the chosen skill category."
+      },
+      {
+        "timestamp": "0:10",
+        "description": "The entire video demonstrates web browsing and watching a JavaScript tutorial, rather than actively performing or demonstrating Python scripting.",
+        "severity": "critical",
+        "suggestion": "Future submissions must include direct evidence of Python scripting activities, such as writing, debugging, or executing Python code in an appropriate development environment."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Screen recording initiated on SkillProof platform."
+      },
+      {
+        "time": "0:07",
+        "event": "Candidate selects 'Python Scripting' from the skill category dropdown."
+      },
+      {
+        "time": "0:13",
+        "event": "Candidate searches for 'show me java scripting' on YouTube."
+      },
+      {
+        "time": "0:20",
+        "event": "Candidate plays a YouTube short titled 'HOW TO ADD JAVASCRIPT TO HTML'."
+      },
+      {
+        "time": "0:30",
+        "event": "Candidate pauses the JavaScript tutorial video."
+      },
+      {
+        "time": "0:31",
+        "event": "Recording continues in the SkillProof platform."
+      }
+    ],
+    "employerSummary": "This submission is not relevant to the claimed skill of Python Scripting. The candidate selected 'Python Scripting' but the video solely shows web browsing, specifically searching for and watching a JavaScript tutorial. No Python code, development environment, or scripting activity was demonstrated.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772997263550-378219029.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T19:14:47.402Z"
+  },
+  {
+    "_id": "mmi4wz7o-x4hp0nuqc",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 15,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 10,
+        "observation": "The video demonstrates Python scripting, not React Frontend Development. The code shown is Python, utilizing the 'turtle' graphics module. There is no React-specific syntax, component structure, or hooks usage visible."
+      },
+      "efficiency": {
+        "score": 10,
+        "observation": "N/A, as the demonstrated skill is irrelevant to React. The Python code itself appears to be a basic script, not demonstrating efficiency relevant to frontend development."
+      },
+      "bestPractices": {
+        "score": 10,
+        "observation": "N/A, no React best practices can be observed as the content is Python code."
+      },
+      "problemSolving": {
+        "score": 10,
+        "observation": "N/A, the video shows a Python script creating a simple graphical pattern, which is not relevant to problem-solving in React Frontend Development."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "The candidate needs to provide video evidence that directly demonstrates 'React Frontend Development' skills, including writing React components, using hooks, managing state, and rendering a user interface."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:06",
+        "description": "The video content entirely focuses on Python scripting using the 'turtle' module, which is completely unrelated to 'React Frontend Development'. No React components, JSX, hooks, or a frontend UI are displayed or developed.",
+        "severity": "critical",
+        "suggestion": "To assess 'React Frontend Development', the candidate must present actual React code, demonstrate component creation, state management with hooks, data fetching, UI rendering, and potentially interaction with a browser."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "User types in search bar"
+      },
+      {
+        "time": "0:06",
+        "event": "Search results for Python scripting appear"
+      },
+      {
+        "time": "0:07",
+        "event": "User clicks on a Python coding short"
+      },
+      {
+        "time": "0:08",
+        "event": "Python 'turtle' graphics code is displayed and executed"
+      },
+      {
+        "time": "0:19",
+        "event": "Video continues showing Python code and output"
+      }
+    ],
+    "employerSummary": "The candidate submitted a video demonstrating basic Python scripting using the 'turtle' graphics library. This content is entirely irrelevant to the requested skill of 'React Frontend Development', and therefore, no assessment of React capabilities could be made.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772997450891-578538991.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T19:17:49.764Z"
+  },
+  {
+    "_id": "mmi4ysei-dwqw2i72a",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Python Scripting",
+    "industry": "IT / Software",
+    "overallScore": 65,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 90,
+        "observation": "The Python code is syntactically correct and functionally achieves the desired output of drawing a heart using the turtle module. All turtle commands are used appropriately."
+      },
+      "efficiency": {
+        "score": 80,
+        "observation": "For the given task of drawing a simple graphic, the code is efficient. There are no obvious inefficiencies in the logic or use of loops; `turtle` module operations are inherently sequential."
+      },
+      "bestPractices": {
+        "score": 55,
+        "observation": "The script uses a function for modularity, which is good. However, the function name `func()` is generic and lacks descriptiveness. Several 'magic numbers' (e.g., 111.65, 140, 120, 200) are hardcoded without being defined as named constants, impacting readability and maintainability."
+      },
+      "problemSolving": {
+        "score": 60,
+        "observation": "The candidate successfully solves the problem of drawing a heart using a known graphics library. The solution is straightforward and demonstrates basic understanding of geometric drawing commands."
+      }
+    },
+    "strengths": [
+      "Correctly implements Python syntax and control flow (loops, functions).",
+      "Successfully uses the `turtle` graphics module to create a visual output.",
+      "Code is functional and achieves its intended purpose."
+    ],
+    "improvements": [
+      "Adopt more descriptive naming conventions for functions and variables.",
+      "Utilize named constants for numerical values to enhance code readability and maintainability.",
+      "Incorporate basic comments to explain the purpose of different code sections, especially if the script were to grow in complexity."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:05",
+        "description": "The function `func()` is generically named. A more descriptive name would improve code readability.",
+        "severity": "minor",
+        "suggestion": "Rename `func()` to something more descriptive, like `draw_heart_segment()` or `draw_arc()`."
+      },
+      {
+        "timestamp": "0:09",
+        "description": "Hardcoded 'magic numbers' like `111.65`, `140`, `120`, and `200` are used directly in the code without being assigned to named constants. This makes the code harder to understand and maintain.",
+        "severity": "minor",
+        "suggestion": "Define these numbers as named constants (e.g., `SEGMENT_LENGTH = 111.65`, `TURN_ANGLE_LEFT = 140`) to improve clarity and make future modifications easier."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Initial script setup: importing turtle, setting speed, background color, and pensize."
+      },
+      {
+        "time": "0:01",
+        "event": "Heart drawing animation begins on screen."
+      },
+      {
+        "time": "0:02",
+        "event": "Heart drawing completes."
+      },
+      {
+        "time": "0:03",
+        "event": "Code visible again, defining `func` with a loop for drawing segments."
+      },
+      {
+        "time": "0:08",
+        "event": "Adding `turtle.color`, `turtle.begin_fill` commands."
+      },
+      {
+        "time": "0:09",
+        "event": "Adding `turtle.left`, `turtle.forward` commands and first `func()` call."
+      },
+      {
+        "time": "0:12",
+        "event": "Adding second `func()` call and `turtle.end_fill`."
+      },
+      {
+        "time": "0:14",
+        "event": "Final `turtle.hideturtle()` and `turtle.done()` commands."
+      }
+    ],
+    "employerSummary": "The candidate demonstrated basic Python scripting by successfully writing and executing a script using the `turtle` module to draw a heart. The code is technically accurate and functional, showcasing fundamental Python concepts. However, there is room for improvement in adhering to best practices such as descriptive naming and using named constants for magic numbers, which are crucial for professional-grade, maintainable code.",
+    "verifiedSkills": [
+      "Python Scripting",
+      "Turtle Graphics"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1772997525066-187825838.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "createdAt": "2026-03-08T19:19:14.250Z"
+  },
+  {
+    "_id": "mmj6hore-jithdteiy",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Python Scripting",
+    "industry": "IT / Software",
+    "overallScore": 20,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "No Python code was written or executed by the candidate, thus technical accuracy cannot be assessed."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "No Python code was written or executed by the candidate, thus code efficiency cannot be assessed."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "No Python code was written or executed by the candidate, thus adherence to best practices cannot be assessed."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No problem-solving related to Python scripting was observed, as the candidate did not attempt to write or debug code."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "Actively write and execute Python scripts to solve a given problem.",
+      "Explain the logic and design choices made during scripting.",
+      "Demonstrate debugging skills if errors are encountered.",
+      "Utilize standard Python libraries and adhere to common coding conventions."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:00 - 0:37",
+        "description": "The candidate did not demonstrate any Python scripting. Instead, they navigated web pages and watched a pre-existing YouTube video about Python code.",
+        "severity": "critical",
+        "suggestion": "To assess Python scripting skills, the candidate must actively write, explain, and potentially debug their own Python code, demonstrating their understanding and ability to implement solutions."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Video starts with SkillProof recording interface visible."
+      },
+      {
+        "time": "0:03",
+        "event": "Candidate switches to a Google Gemini tab."
+      },
+      {
+        "time": "0:12",
+        "event": "Candidate switches to a YouTube tab displaying a Python scripting video."
+      },
+      {
+        "time": "0:15",
+        "event": "The YouTube video plays, showing Python code for drawing a heart with the 'turtle' library."
+      },
+      {
+        "time": "0:30",
+        "event": "Candidate switches back to Google Gemini, then briefly to SkillProof."
+      },
+      {
+        "time": "0:37",
+        "event": "Video ends."
+      }
+    ],
+    "employerSummary": "The candidate did not demonstrate any Python scripting skills in the video. The session primarily involved navigating web pages and watching a YouTube video related to Python, rather than active coding. Therefore, competency in Python scripting cannot be assessed.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773060556730-232873715.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": false,
+    "createdAt": "2026-03-09T12:49:41.786Z"
+  },
+  {
+    "_id": "mmj7twhm-d0mq9a9sy",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "React Frontend Development",
+    "industry": "IT / Software",
+    "overallScore": 15,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 0,
+        "observation": "No React-specific technical accuracy could be assessed as no React code was demonstrated or discussed. The video content was entirely unrelated to React."
+      },
+      "efficiency": {
+        "score": 0,
+        "observation": "Efficiency in React development could not be evaluated since the candidate did not perform any React-related tasks. The video presented AI-generated Python code."
+      },
+      "bestPractices": {
+        "score": 0,
+        "observation": "No React best practices were observed or followed as the video's content was Python code generation, not React frontend development."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No problem-solving relevant to React Frontend Development was observed. The candidate watched an AI generate a solution to a Python programming problem."
+      }
+    },
+    "strengths": [],
+    "improvements": [
+      "Ensure the video content directly relates to the claimed skill 'React Frontend Development'.",
+      "Demonstrate actual coding, design, or debugging processes in React, rather than playing pre-recorded videos or relying on AI code generation.",
+      "Focus on showing personal authorship and understanding of React concepts and best practices."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:03-0:36",
+        "description": "The entire relevant portion of the video (which is the content being played) is completely unrelated to the claimed skill 'React Frontend Development'. It showcases an AI generating Python code for a console application.",
+        "severity": "critical",
+        "suggestion": "The candidate must demonstrate actual React Frontend Development skills, such as building components, managing state, handling user interactions, or integrating APIs."
+      },
+      {
+        "timestamp": "0:22",
+        "description": "Within the video presented by the candidate, a large block of Python code appeared instantly as an output from an AI chat, indicating that the displayed code was generated rather than authored by a human during a coding session.",
+        "severity": "critical",
+        "suggestion": "Any code presented for evaluation should be demonstrated as authored by the candidate, showing their thought process and coding ability, rather than being instantly generated by an AI or copy-pasted."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Recording starts on the SkillProof platform."
+      },
+      {
+        "time": "0:03",
+        "event": "Candidate opens a media player to play 'Video Project 4'."
+      },
+      {
+        "time": "0:12",
+        "event": "The video content within the media player starts showing a code editor with an AI chat."
+      },
+      {
+        "time": "0:19",
+        "event": "A prompt 'write an implementation of the game of life in python. animate the output in the console.' is being typed into the AI chat."
+      },
+      {
+        "time": "0:22",
+        "event": "AI instantly generates and displays Python code for Conway's Game of Life."
+      },
+      {
+        "time": "0:30",
+        "event": "The 'Apply' button is clicked to integrate the AI-generated code into the editor."
+      },
+      {
+        "time": "0:38",
+        "event": "The media player is closed, returning to the SkillProof recording interface."
+      },
+      {
+        "time": "0:39",
+        "event": "Recording stops."
+      }
+    ],
+    "employerSummary": "The candidate submitted a screen recording that played a video unrelated to React Frontend Development. The presented video showcased an AI generating Python code. No evidence of React skills or frontend development competency was observed, and the integrity flag for instant code generation was triggered. ⚠️ INTEGRITY ALERT: This submission was flagged for copy-paste detected. Manual review recommended.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773062799186-26605889.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": true,
+      "copyPasteEvidence": "At 0:22, a substantial block of Python code instantly materialized in response to an AI chat prompt within the video being played, indicating AI generation rather than human typing or natural code development.",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": true,
+    "createdAt": "2026-03-09T13:27:11.290Z"
   }
 ]

@@ -139,7 +139,17 @@ const assessSkill = async (req, res) => {
             console.log(`📊 Assessment received from ${usedModel}:`);
             console.log(`   Score: ${assessmentData.overallScore}, Level: ${assessmentData.skillLevel}, Passed: ${assessmentData.passed}`);
 
-            // Validate the response structure
+            // Log integrity flags if present
+            if (assessmentData.integrityFlags) {
+                const flags = assessmentData.integrityFlags;
+                const flagged = flags.isDeepfakeDetected || flags.isCopyPasteDetected || flags.isProxyDetected;
+                console.log(`   🔍 Integrity: ${flagged ? '🚨 FLAGGED' : '✅ CLEAN'}`);
+                if (flags.isDeepfakeDetected) console.log(`      ⚠️ Deepfake: ${flags.deepfakeEvidence}`);
+                if (flags.isCopyPasteDetected) console.log(`      ⚠️ Copy-Paste: ${flags.copyPasteEvidence}`);
+                if (flags.isProxyDetected) console.log(`      ⚠️ Proxy: ${flags.proxyEvidence}`);
+            }
+
+            // Validate the response structure and enforce the Failure Trigger
             assessmentData = validateAndNormalizeAssessment(assessmentData, skillName);
 
         } catch (geminiError) {
@@ -161,7 +171,14 @@ const assessSkill = async (req, res) => {
             });
         }
 
-        // Save assessment to store
+        // Determine if integrity was flagged
+        const integrityFlagged = assessmentData.integrityFlags && (
+            assessmentData.integrityFlags.isDeepfakeDetected ||
+            assessmentData.integrityFlags.isCopyPasteDetected ||
+            assessmentData.integrityFlags.isProxyDetected
+        );
+
+        // Save assessment to store (now includes integrityFlags)
         const assessment = store.insert('assessments', {
             candidateId: req.user._id,
             skillName,
@@ -178,17 +195,20 @@ const assessSkill = async (req, res) => {
             verifiedSkills: assessmentData.verifiedSkills || [],
             videoPath: videoPath,
             analyzedBy: usedModel,
-            isGeminiAnalysis: isGeminiAnalysis
+            isGeminiAnalysis: isGeminiAnalysis,
+            // NEW: Store forensic integrity analysis results
+            integrityFlags: assessmentData.integrityFlags || null,
+            integrityFlagged: !!integrityFlagged
         });
 
         let badge = null;
-        // Auto-generate badge if passed
-        if (assessmentData.passed && assessmentData.overallScore >= 70) {
+        // Auto-generate badge ONLY if passed AND no integrity violations
+        if (assessmentData.passed && assessmentData.overallScore >= 70 && !integrityFlagged) {
             badge = generateBadge(assessment._id, req.user);
             store.updateById('assessments', assessment._id, { badgeId: badge.badgeId });
         }
 
-        console.log(`✅ Assessment saved. ID: ${assessment._id}, Badge: ${badge ? badge.badgeId : 'none'}`);
+        console.log(`✅ Assessment saved. ID: ${assessment._id}, Badge: ${badge ? badge.badgeId : 'none'}, Integrity: ${integrityFlagged ? '🚨 FLAGGED' : '✅ CLEAN'}`);
         console.log('='.repeat(60) + '\n');
 
         res.status(201).json({
@@ -204,18 +224,59 @@ const assessSkill = async (req, res) => {
 };
 
 /**
- * Validate and normalize the Gemini response to ensure it has all required fields
+ * Validate and normalize the Gemini response
+ * 
+ * IMPORTANT: This function enforces the FAILURE TRIGGER.
+ * If any integrity flag is detected, `passed` is forced to false
+ * regardless of the score. This is the last line of defense.
  */
 function validateAndNormalizeAssessment(data, skillName) {
-    // Ensure overallScore is a number between 0 and 100
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 1. Normalize integrityFlags
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if (!data.integrityFlags || typeof data.integrityFlags !== 'object') {
+        data.integrityFlags = {
+            isDeepfakeDetected: false,
+            deepfakeConfidence: 'none',
+            deepfakeEvidence: '',
+            isCopyPasteDetected: false,
+            copyPasteEvidence: '',
+            isProxyDetected: false,
+            proxyEvidence: ''
+        };
+    }
+    // Coerce flag fields to booleans
+    data.integrityFlags.isDeepfakeDetected = !!data.integrityFlags.isDeepfakeDetected;
+    data.integrityFlags.isCopyPasteDetected = !!data.integrityFlags.isCopyPasteDetected;
+    data.integrityFlags.isProxyDetected = !!data.integrityFlags.isProxyDetected;
+
+    const integrityCompromised =
+        data.integrityFlags.isDeepfakeDetected ||
+        data.integrityFlags.isCopyPasteDetected ||
+        data.integrityFlags.isProxyDetected;
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 2. Normalize overallScore
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (typeof data.overallScore !== 'number' || data.overallScore < 0 || data.overallScore > 100) {
         data.overallScore = Math.max(0, Math.min(100, Number(data.overallScore) || 0));
     }
 
-    // Ensure passed is consistent with score
-    data.passed = data.overallScore >= 70;
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 3. FAILURE TRIGGER — enforce hard pass/fail logic
+    //    Integrity violation → ALWAYS fail, no exceptions
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if (integrityCompromised) {
+        data.passed = false;
+        // Cap the score — a cheater should not display a high score
+        data.overallScore = Math.min(data.overallScore, 30);
+    } else {
+        data.passed = data.overallScore >= 70;
+    }
 
-    // Ensure skillLevel is set correctly based on score
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 4. Normalize skillLevel based on final score
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (!data.skillLevel || !['Beginner', 'Intermediate', 'Advanced', 'Expert'].includes(data.skillLevel)) {
         if (data.overallScore >= 90) data.skillLevel = 'Expert';
         else if (data.overallScore >= 80) data.skillLevel = 'Advanced';
@@ -223,7 +284,14 @@ function validateAndNormalizeAssessment(data, skillName) {
         else data.skillLevel = 'Beginner';
     }
 
-    // Ensure dimensions exist with scores
+    // If integrity is compromised, force skill level to Beginner
+    if (integrityCompromised) {
+        data.skillLevel = 'Beginner';
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 5. Normalize dimensions
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (!data.dimensions || typeof data.dimensions !== 'object') {
         data.dimensions = {};
     }
@@ -233,22 +301,37 @@ function validateAndNormalizeAssessment(data, skillName) {
         if (!data.dimensions[dim]) {
             data.dimensions[dim] = { score: data.overallScore, observation: 'Analysis not available for this dimension.' };
         }
-        // Clamp individual dimension scores
         if (typeof data.dimensions[dim].score === 'number') {
             data.dimensions[dim].score = Math.max(0, Math.min(100, data.dimensions[dim].score));
         }
     }
 
-    // Ensure arrays exist
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 6. Normalize arrays and strings
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (!Array.isArray(data.strengths)) data.strengths = [];
     if (!Array.isArray(data.improvements)) data.improvements = [];
     if (!Array.isArray(data.verifiedSkills)) data.verifiedSkills = [];
     if (!Array.isArray(data.flaws)) data.flaws = [];
     if (!Array.isArray(data.timestamps)) data.timestamps = [];
 
+    // If integrity compromised, clear verified skills — cheaters get nothing
+    if (integrityCompromised) {
+        data.verifiedSkills = [];
+    }
+
     // Ensure employerSummary
     if (!data.employerSummary || typeof data.employerSummary !== 'string') {
         data.employerSummary = `Candidate demonstrated ${data.skillLevel.toLowerCase()}-level proficiency in ${skillName} with a score of ${data.overallScore}/100.`;
+    }
+
+    // Append integrity warning to employer summary if flagged
+    if (integrityCompromised) {
+        const violations = [];
+        if (data.integrityFlags.isDeepfakeDetected) violations.push('potential deepfake');
+        if (data.integrityFlags.isCopyPasteDetected) violations.push('copy-paste detected');
+        if (data.integrityFlags.isProxyDetected) violations.push('proxy/identity fraud');
+        data.employerSummary += ` ⚠️ INTEGRITY ALERT: This submission was flagged for ${violations.join(', ')}. Manual review recommended.`;
     }
 
     return data;
