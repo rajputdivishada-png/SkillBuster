@@ -167,6 +167,7 @@ CRITICAL FLAWS TO FLAG:
 - ADD instead of COPY for simple file operations
     `
   },
+<<<<<<< HEAD
   'C++ Scripting': {
     industry: 'IT / Software',
     dimensions: ['Syntax Correctness', 'Memory Management', 'OOP Principles', 'STL Usage', 'Code Efficiency'],
@@ -203,6 +204,8 @@ CRITICAL FLAWS TO FLAG:
 - No error handling for file I/O or user input
     `
   },
+=======
+>>>>>>> 7e8019248fe0fc8b93c280e43415618c1a6009fd
   'Wound Dressing': {
     industry: 'Healthcare',
     dimensions: ['Technique Accuracy', 'Hygiene Protocol', 'Material Selection', 'Patient Communication', 'Speed'],
