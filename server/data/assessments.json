@@ -1260,5 +1260,192 @@
     },
     "integrityFlagged": true,
     "createdAt": "2026-03-09T18:05:31.968Z"
+  },
+  {
+    "_id": "mmjl6v9g-t7o7gp52f",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Music",
+    "industry": "Performing Arts",
+    "overallScore": 47,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 52,
+        "observation": "The candidate maintains a consistent rhythm and possesses a generally clear vocal tone. However, pitch accuracy is a significant area for improvement, as notes are frequently flat, and there's no evident self-correction."
+      },
+      "efficiency": {
+        "score": 45,
+        "observation": "Vocal production indicates some strain, suggesting a lack of optimal breath support and efficient vocal technique required for sustained and precise singing."
+      },
+      "bestPractices": {
+        "score": 60,
+        "observation": "The candidate displays good performance confidence through direct eye contact and expressive hand gestures. However, the vocal delivery lacks dynamic range and deeper emotional engagement, which are crucial best practices for captivating performances."
+      },
+      "problemSolving": {
+        "score": 30,
+        "observation": "The candidate does not demonstrate any observable self-correction or adjustment despite consistent pitch inaccuracies throughout the performance."
+      }
+    },
+    "strengths": [
+      "Maintains good eye contact with the camera, conveying confidence.",
+      "Uses expressive hand gestures during the performance.",
+      "Demonstrates a consistent and stable rhythm."
+    ],
+    "improvements": [
+      "Prioritize intensive pitch training and ear training exercises to improve intonation.",
+      "Develop stronger breath control and vocal support techniques to reduce strain and enhance vocal efficiency.",
+      "Focus on incorporating dynamic variations and emotional nuances into vocal delivery to make performances more expressive and engaging."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:03",
+        "description": "Consistent pitch inaccuracies, particularly going flat on sustained notes (e.g., 'dil').",
+        "severity": "critical",
+        "suggestion": "Engage in targeted pitch training, including ear training exercises and scales with a tuner."
+      },
+      {
+        "timestamp": "0:08",
+        "description": "Pitch issues continue on melodic phrases (e.g., 'manzil'), showing a lack of consistent pitch control.",
+        "severity": "critical",
+        "suggestion": "Practice specific melodic lines slowly, focusing on precise intonation for each note."
+      },
+      {
+        "timestamp": "0:00-0:12",
+        "description": "Vocal delivery lacks dynamic range and emotional depth, leading to a somewhat monotone performance.",
+        "severity": "major",
+        "suggestion": "Experiment with varying volume, intensity, and vocal color to convey different emotions within the song."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Candidate begins singing with hand gestures"
+      },
+      {
+        "time": "0:03",
+        "event": "Noticeable pitch inaccuracy on sustained note"
+      },
+      {
+        "time": "0:08",
+        "event": "Further pitch inaccuracy observed during melodic phrase"
+      },
+      {
+        "time": "0:12",
+        "event": "Performance concludes"
+      }
+    ],
+    "employerSummary": "The candidate exhibits confidence and a steady rhythmic sense in their vocal performance. However, significant improvements are required in fundamental areas such as pitch accuracy and dynamic vocal expression to meet the expectations of professional musical competency.",
+    "verifiedSkills": [],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773085227770-590687032.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "low",
+      "deepfakeEvidence": "Minor, subtle discrepancies observed between audio and lip movements, not conclusive enough to flag as a deepfake but suggest possible slight desynchronization or a non-studio recording setup.",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": false,
+    "createdAt": "2026-03-09T19:41:11.237Z"
+  },
+  {
+    "_id": "mmjla1ad-vy8o6quv4",
+    "candidateId": "mmi4rk44-gmin4tlz3",
+    "skillName": "Music",
+    "industry": "Performing Arts",
+    "overallScore": 50,
+    "passed": false,
+    "skillLevel": "Beginner",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 40,
+        "observation": "Vocal quality presents with a noticeable nasal tone and some tension, particularly on sustained notes. Pitch accuracy is a significant weakness, with frequent instances of notes being sung off-key throughout the performance, especially during transitions and sustained phrases."
+      },
+      "efficiency": {
+        "score": 50,
+        "observation": "The candidate performs the short segment without breaks or major stumbles, maintaining continuity. However, there's no clear evidence of advanced breath control or vocal stamina efficiency, with some visible strain on certain notes."
+      },
+      "bestPractices": {
+        "score": 60,
+        "observation": "The candidate maintains a generally steady internal rhythm, though the absence of a backing track makes a full assessment of rhythmic precision challenging. Emotional expression is present but somewhat limited by the technical vocal challenges. Performance confidence is decent, with good eye contact maintained throughout."
+      },
+      "problemSolving": {
+        "score": 0,
+        "observation": "No specific errors or problems were introduced during this brief performance that would allow for an assessment of problem-solving skills or recovery from mistakes."
+      }
+    },
+    "strengths": [
+      "Appears confident and maintains good eye contact with the camera.",
+      "Demonstrates consistent internal rhythm in the absence of a backing track.",
+      "Clear enunciation of the song lyrics."
+    ],
+    "improvements": [
+      "Implement intensive ear training and pitch accuracy exercises to develop a more precise sense of intonation.",
+      "Work on developing stronger and more consistent breath support to achieve better vocal control and sustain.",
+      "Focus on vocal relaxation techniques to reduce tension in the throat and improve overall tone quality and resonance.",
+      "Practice singing with a backing track or instrumental accompaniment to refine rhythmic synchronization and timing."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:02",
+        "description": "The vocal pitch is noticeably flat on the word 'Umeed'.",
+        "severity": "major",
+        "suggestion": "Engage in targeted ear training exercises to improve pitch recognition and practice matching notes with a tuner or keyboard."
+      },
+      {
+        "timestamp": "0:04",
+        "description": "Pitch accuracy struggles again during the phrase 'seene me le', drifting off-key.",
+        "severity": "major",
+        "suggestion": "Focus on consistent breath support from the diaphragm to stabilize pitch, especially across phrases."
+      },
+      {
+        "timestamp": "0:05",
+        "description": "Sustained notes like 'lekin' and 'mai' are sung off-key, indicating a lack of consistent pitch control.",
+        "severity": "major",
+        "suggestion": "Practice singing scales and arpeggios slowly, sustaining each note and checking pitch against a reference tone."
+      },
+      {
+        "timestamp": "0:00",
+        "description": "Overall vocal tone has a nasal quality and some audible tension.",
+        "severity": "minor",
+        "suggestion": "Explore vocal warm-ups and exercises that focus on opening the pharyngeal space and relaxing the jaw and throat to improve resonance and reduce tension."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:00",
+        "event": "Candidate begins singing a Hindi song"
+      },
+      {
+        "time": "0:02",
+        "event": "First noticeable pitch inaccuracy on 'Umeed'"
+      },
+      {
+        "time": "0:06",
+        "event": "Candidate finishes the short singing segment"
+      }
+    ],
+    "employerSummary": "The candidate exhibits reasonable performance confidence and clear enunciation. However, fundamental challenges in vocal pitch accuracy and overall tone quality limit the effectiveness of the performance, indicating a need for significant technical development in core singing skills to meet professional standards.",
+    "verifiedSkills": [
+      "Singing (attempted)"
+    ],
+    "videoPath": "C:\\Users\\jeshm\\Aura-audit\\server\\uploads\\video-1773085391494-579674979.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": false,
+    "createdAt": "2026-03-09T19:43:39.013Z"
   }
 ]
