@@ -1,0 +1,374 @@
+/**
+ * SkillProof — Gemini Vision Assessment Prompts (v2.0)
+ * 
+ * Advanced system prompt with:
+ * 1. Forensic Integrity Layer — deepfake detection, copy-paste detection, proxy detection
+ * 2. Technical Assessment Layer — rubric-based scoring with Zero-Shot CoT reasoning
+ * 3. Failure Trigger — any integrity violation auto-fails the assessment
+ * 4. Strict JSON output — optimized for programmatic parsing
+ * 
+ * Prompt Engineering Techniques Used:
+ * - Zero-Shot Chain-of-Thought (ZS-CoT) via "Think step-by-step" sequencing
+ * - Role Anchoring ("You are a forensic video analyst AND skill assessor")
+ * - Constraint Injection (hard rules that override all other reasoning)
+ * - Output Schema Pinning (strict JSON template with field types)
+ * - Token-Efficient Compression (terse instructions, avoiding repetition)
+ */
+
+const skillRubrics = {
+  'React Frontend Development': {
+    industry: 'IT / Software',
+    dimensions: ['Component Structure', 'Hooks Usage (useState/useEffect)', 'Code Cleanliness', 'Error-Free Execution', 'Responsive Design'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code appearing in large blocks instantaneously (paste detection)
+- Typing speed that exceeds human capability (>150 WPM sustained with zero errors)
+- Cursor jumping to exact positions without scroll/search (pre-recorded script)
+- Code editor showing pre-written files being merely opened, not authored
+- Tab-switching to solutions/answers pages during the task
+
+TECHNICAL EVALUATION POINTS:
+- Functional components with clear separation of concerns
+- Correct React hooks usage (useState, useEffect, useCallback, useMemo)
+- Proper handling of component lifecycle and cleanup
+- Key prop usage in list rendering
+- Error/loading state handling patterns
+- Naming conventions (camelCase variables, PascalCase components)
+- Browser testing and console inspection
+
+CRITICAL FLAWS TO FLAG:
+- Missing useEffect dependency arrays causing infinite renders
+- Direct state mutation instead of setter functions
+- Hardcoded values where props should be used
+- Missing key props in mapped lists
+- No error boundary implementation
+- Class components instead of functional (outdated pattern)
+    `
+  },
+  'Node.js API Development': {
+    industry: 'IT / Software',
+    dimensions: ['Route Structure', 'Error Handling', 'HTTP Status Codes', 'Security Basics', 'Code Organization'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code appearing in large blocks instantaneously (paste detection)
+- Typing speed that exceeds human capability (>150 WPM sustained with zero errors)
+- Cursor jumping to exact positions without scroll/search (pre-recorded script)
+- Code editor showing pre-written files being merely opened, not authored
+- Tab-switching to solutions/answers pages during the task
+
+TECHNICAL EVALUATION POINTS:
+- RESTful route design with correct HTTP methods
+- try/catch for async operations
+- Appropriate HTTP status codes (200, 201, 400, 404, 500)
+- Input validation on request body/params
+- Middleware usage and pipeline structure
+- Environment variables for configuration/secrets
+
+CRITICAL FLAWS TO FLAG:
+- No try/catch for async operations
+- Using GET for data mutations
+- Returning 200 for error cases
+- SQL/NoSQL injection via unsanitized input
+- Hardcoded credentials or API keys
+- Synchronous blocking operations in async handlers
+- Missing CORS configuration
+    `
+  },
+  'JavaScript Debugging': {
+    industry: 'IT / Software',
+    dimensions: ['Root Cause Identification', 'Fix Correctness', 'Console Usage', 'Debugging Speed', 'Explanation Quality'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Candidate immediately jumps to the exact line of the bug without reading code (pre-knowledge)
+- Fix applied instantly without testing or verification
+- No visible thought process — straight to solution (scripted)
+
+TECHNICAL EVALUATION POINTS:
+- Systematic debugging approach vs random guessing
+- Error message comprehension and stack trace reading
+- Appropriate use of console.log, debugger, or DevTools breakpoints
+- Root cause identification vs symptom fixing
+- Post-fix verification and testing
+
+CRITICAL FLAWS TO FLAG:
+- Random trial-and-error without reading errors
+- Fixing symptoms instead of root causes
+- Not testing the fix after applying it
+- Ignoring error types (TypeError vs ReferenceError)
+    `
+  },
+  'SQL Database Querying': {
+    industry: 'IT / Software',
+    dimensions: ['Query Correctness', 'Joins/Aggregations', 'Optimization Awareness', 'Schema Understanding', 'Edge Case Handling'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Complex multi-table queries appearing fully formed in one paste action
+- No schema exploration before writing JOIN queries (pre-knowledge)
+
+TECHNICAL EVALUATION POINTS:
+- Syntactically correct SQL
+- Correct JOIN type selection (INNER, LEFT, RIGHT)
+- Proper use of GROUP BY, HAVING, aggregate functions
+- NULL handling in WHERE clauses
+- Query performance awareness (indexes, subquery vs join)
+
+CRITICAL FLAWS TO FLAG:
+- SELECT * instead of specific columns
+- Cartesian products from missing JOIN conditions
+- No parameterized queries (injection risk)
+- Missing GROUP BY with aggregate functions
+    `
+  },
+  'Python Scripting': {
+    industry: 'IT / Software',
+    dimensions: ['Syntax Correctness', 'Function Usage', 'Code Efficiency', 'Library Knowledge', 'Best Practices'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Code blocks appearing instantaneously (paste detection)
+- Import statements for uncommon libraries typed perfectly from memory without any lookup
+
+TECHNICAL EVALUATION POINTS:
+- Correct Python syntax and indentation
+- Function decomposition for reusable logic
+- List comprehensions, generators where appropriate
+- Context managers (with statement) for file operations
+- PEP 8 style compliance
+- f-string usage for formatting
+
+CRITICAL FLAWS TO FLAG:
+- Mutable default arguments in function definitions
+- Using import * pattern
+- Global variable dependency
+- Bare except clauses
+- Not closing file handles properly
+    `
+  },
+  'DevOps / Docker': {
+    industry: 'IT / Software',
+    dimensions: ['Dockerfile Correctness', 'Environment Variables', 'Port Configuration', 'Multi-Stage Builds', 'Security Practices'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR SOFTWARE DEVELOPMENT:
+- Complete Dockerfile pasted in one action
+- docker commands typed with zero hesitation on exact flags (scripted)
+
+TECHNICAL EVALUATION POINTS:
+- Correct Dockerfile syntax and instruction ordering
+- Appropriate base image selection (not :latest)
+- Environment variables over hardcoded values
+- .dockerignore configuration
+- Layer ordering for cache optimization
+- Multi-stage builds for compiled languages
+
+CRITICAL FLAWS TO FLAG:
+- Running as root inside containers
+- Using :latest tag (non-reproducible builds)
+- COPY . . without .dockerignore
+- Hardcoded secrets in Dockerfile
+- ADD instead of COPY for simple file operations
+    `
+  },
+  'Wound Dressing': {
+    industry: 'Healthcare',
+    dimensions: ['Technique Accuracy', 'Hygiene Protocol', 'Material Selection', 'Patient Communication', 'Speed'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR HEALTHCARE:
+- Video appears AI-generated (unnatural hand movements, morphing skin textures)
+- Another person's hands entering the frame performing the actual work
+- Candidate's face not visible or changes between cuts (proxy)
+- Pre-recorded procedure with narration overlaid
+
+TECHNICAL EVALUATION POINTS:
+- Hand washing/sanitization before procedure
+- Correct wound cleaning technique
+- Appropriate dressing type selection
+- Sterile glove usage maintained throughout
+- Dressing secured properly (not too tight, not too loose)
+- Post-dressing circulation check
+
+CRITICAL FLAWS TO FLAG:
+- No hand sanitization before starting
+- Touching sterile side of the dressing
+- Cross-contamination of sterile supplies
+- Wrong dressing type for wound
+- No post-application circulation check
+    `
+  },
+  'Circuit Wiring': {
+    industry: 'Electrical / ITI',
+    dimensions: ['Wiring Correctness', 'Safety Protocols', 'Tool Usage', 'Circuit Integrity', 'Neatness'],
+    specificInstructions: `
+FORENSIC SIGNALS FOR ELECTRICAL WORK:
+- Video appears AI-generated (tools morphing, wire physics anomalies)
+- Cuts or jumps in the video that skip critical steps
+- Another person's hands performing the work
+- Pre-wired circuit being presented as freshly done
+
+TECHNICAL EVALUATION POINTS:
+- Power source disconnected before work
+- Proper tool usage (wire stripper, crimper, multimeter)
+- Wire connections matching circuit diagram
+- Correct wire gauge for current rating
+- Circuit testing after completion
+- Neat, organized wiring
+
+CRITICAL FLAWS TO FLAG:
+- Working on live circuits
+- Incorrect wire gauge for current rating
+- Loose or exposed wire connections
+- No proper insulation/electrical tape
+- Incorrect polarity connections
+- No grounding
+    `
+  }
+};
+
+/**
+ * Generate the advanced assessment prompt for Gemini Vision
+ * 
+ * Architecture: Two-pass analysis pipeline
+ * Pass 1 → Forensic Integrity Check (MUST complete before scoring)
+ * Pass 2 → Technical Skill Assessment (only if integrity passes OR with penalty)
+ * 
+ * This uses Zero-Shot Chain-of-Thought: the model is asked to reason through
+ * each layer sequentially, with explicit "think step-by-step" instructions.
+ */
+const getAssessmentPrompt = (skillName, industry) => {
+  const rubric = skillRubrics[skillName];
+  const specificInstructions = rubric ? rubric.specificInstructions : '';
+  const dimensions = rubric ? rubric.dimensions.join(', ') : 'Technical Accuracy, Efficiency, Best Practices, Problem Solving';
+
+  return `SYSTEM ROLE: You are SkillProof Sentinel — a dual-role AI that functions as BOTH a forensic video integrity analyst AND a professional ${industry} skill assessor. You have been trained on adversarial attack patterns and have 15 years of domain expertise.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HARD CONSTRAINTS (OVERRIDE ALL OTHER REASONING)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HC-1: You MUST watch every frame of the video before responding.
+HC-2: Scores MUST be derived ONLY from observable evidence in the video.
+HC-3: If ANY integrity flag is triggered → "passed" MUST be false. No exceptions.
+HC-4: Return ONLY valid JSON. No markdown fences. No explanatory text outside JSON.
+HC-5: Do NOT default to high scores. A score ≥70 means genuine professional competency.
+HC-6: An inflated score is a MISSION FAILURE. Accuracy over generosity.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYSIS TARGET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLAIMED SKILL: ${skillName}
+INDUSTRY: ${industry}
+EVALUATION DIMENSIONS: ${dimensions}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASS 1: FORENSIC INTEGRITY ANALYSIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Think step-by-step. Before scoring any skill, you MUST first investigate the video for signs of fraud. Analyze each category below and set its flag to true ONLY if you find clear, specific evidence.
+
+DEEPFAKE / AI-GENERATED DETECTION:
+- Facial micro-expression inconsistencies (eyes, mouth lag)
+- Unnatural skin texture warping, especially at face edges
+- Lighting on face not matching environment lighting direction
+- Hands morphing or having incorrect finger counts
+- Physics anomalies (objects defying gravity, impossible tool movements)
+- Temporal glitching (frames where the person's appearance shifts)
+
+COPY-PASTE / INSTANT CODE DETECTION (for software skills):
+- Large blocks of code (>5 lines) appearing on screen in <1 second
+- Zero typing animation — code materializes between frames
+- Typing cadence that is mechanically uniform (bot) vs natural (human)
+- Code complexity that exceeds what the candidate demonstrates understanding of
+- No syntax errors, no backspacing, no corrections (unrealistic perfection)
+
+PROXY / IDENTITY FRAUD DETECTION:
+- Multiple different people visible performing the work
+- Hands performing the task don't match the body/face of the candidate
+- Camera angle strategically hides the person's identity
+- Audio narration doesn't match the lip movements of the person on screen
+- Video has suspicious cuts that could hide a person swap
+- Someone else giving instructions off-camera that the candidate blindly follows
+
+CONTENT RELEVANCE CHECK:
+- Does the video content match the claimed skill "${skillName}"?
+- Is the candidate browsing unrelated websites, watching videos, or idle?
+- Is the video blank, corrupted, too dark, or too blurry to evaluate?
+
+${specificInstructions}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASS 2: TECHNICAL SKILL ASSESSMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ONLY after completing the forensic check, assess the actual skill demonstration.
+
+STEP A — OBSERVE: Describe exactly what the candidate does in the video (2-3 sentences).
+STEP B — EVALUATE: Score each dimension based solely on observed evidence.
+STEP C — CRITIQUE: Identify specific flaws with approximate timestamps.
+STEP D — GRADE: Assign the overall score using this calibration scale:
+
+  0-10  → Video is blank, corrupted, or completely irrelevant
+  11-30 → Video shows activity but NOT the claimed skill
+  31-49 → Claimed skill is attempted with critical errors
+  50-69 → Partial competency, missing key professional standards
+  70-79 → Competent — meets minimum standard for professional work
+  80-89 → Strong — above average, minor improvements possible
+  90-100 → Exceptional — expert-level mastery, negligible flaws
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FAILURE TRIGGER (AUTOMATIC)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IF any of these are true → "passed" MUST be false:
+  • integrityFlags.isDeepfakeDetected === true
+  • integrityFlags.isCopyPasteDetected === true
+  • integrityFlags.isProxyDetected === true
+  • isRelevantToSkill === false
+  • overallScore < 70
+
+There are ZERO exceptions to this rule.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT SCHEMA (STRICT JSON)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "integrityFlags": {
+    "isDeepfakeDetected": <boolean>,
+    "deepfakeConfidence": <"none" | "low" | "medium" | "high">,
+    "deepfakeEvidence": "<empty string if none, else specific frame/time evidence>",
+    "isCopyPasteDetected": <boolean>,
+    "copyPasteEvidence": "<empty string if none, else 'At 0:XX, N lines appeared in <1s'>",
+    "isProxyDetected": <boolean>,
+    "proxyEvidence": "<empty string if none, else describe the identity inconsistency>"
+  },
+  "isRelevantToSkill": <boolean — does the video content match "${skillName}"?>,
+  "videoDescription": "<2-3 sentences: what EXACTLY you see happening in the video>",
+  "overallScore": <integer 0-100>,
+  "passed": <boolean — false if ANY integrity flag is true OR score < 70>,
+  "skillLevel": "<Beginner | Intermediate | Advanced | Expert>",
+  "dimensions": {
+    "technicalAccuracy": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "efficiency": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "bestPractices": { "score": <0-100>, "observation": "<evidence-based justification>" },
+    "problemSolving": { "score": <0-100>, "observation": "<evidence-based justification>" }
+  },
+  "flaws": [
+    { "timestamp": "<e.g. 0:30>", "description": "<specific flaw observed>", "severity": "<minor | major | critical>", "suggestion": "<how to fix>" }
+  ],
+  "timestamps": [
+    { "time": "<e.g. 0:15>", "event": "<what happened>" }
+  ],
+  "strengths": ["<specific observed strength>"],
+  "improvements": ["<actionable improvement>"],
+  "verifiedSkills": ["<tag ONLY if genuinely demonstrated>"],
+  "employerSummary": "<2-3 sentence executive summary for a hiring manager>"
+}
+
+Return ONLY the raw JSON object. No surrounding text. No code fences.`;
+};
+
+/**
+ * Get all available skill categories
+ */
+const getSkillCategories = () => {
+  return Object.entries(skillRubrics).map(([name, rubric]) => ({
+    name,
+    industry: rubric.industry,
+    dimensions: rubric.dimensions
+  }));
+};
+
+module.exports = { getAssessmentPrompt, getSkillCategories, skillRubrics };
