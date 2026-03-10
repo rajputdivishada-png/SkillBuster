@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CheckCircle, XCircle, Award, ArrowRight, TrendingUp, AlertTriangle, Clock, Eye, Crosshair, Zap } from 'lucide-react';
 import { getAssessment } from '../api';
+import SkeletonLoader from '../components/SkeletonLoader';
 
 export default function ScoreCardPage() {
     const { assessmentId } = useParams();
@@ -58,11 +59,8 @@ export default function ScoreCardPage() {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <div className="spinner"></div>
-                <p className="loading-text">
-                    <span className="gradient-text">Loading your results...</span>
-                </p>
+            <div className="loading-container" style={{ minHeight: '80vh' }}>
+                <SkeletonLoader type="scorecard" />
             </div>
         );
     }

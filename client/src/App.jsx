@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
+import PageLoader from './components/PageLoader';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -95,6 +96,7 @@ export default function App() {
     return (
         <AuthProvider>
             <Router>
+                <PageLoader />
                 <AppRoutes />
                 <Toaster
                     position="top-right"

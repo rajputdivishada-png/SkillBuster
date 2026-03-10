@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { submitAssessment, getSkills } from '../api';
 import toast from 'react-hot-toast';
 import { Video, Square, Upload, Camera, Monitor, Sparkles } from 'lucide-react';
+import AIAnalysisOverlay from '../components/AIAnalysisOverlay';
 
 export default function RecordTask() {
     const [skills, setSkills] = useState([]);
@@ -274,17 +275,8 @@ export default function RecordTask() {
                     )}
                 </div>
 
-                {/* Submitting State */}
-                {isSubmitting && (
-                    <div className="loading-container" style={{ minHeight: 'auto', padding: '2rem 0' }}>
-                        <div className="spinner"></div>
-                        <p className="loading-text">
-                            <span className="gradient-text">Gemini is evaluating your skill...</span>
-                            <br />
-                            <span style={{ fontSize: '0.85rem' }}>This may take up to 30 seconds</span>
-                        </p>
-                    </div>
-                )}
+                {/* AI Analysis Overlay */}
+                <AIAnalysisOverlay visible={isSubmitting} />
 
                 {/* Tips */}
                 {!isSubmitting && (
