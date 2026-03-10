@@ -148,4 +148,65 @@ router.get('/talent', protect, authorize('employer'), (req, res) => {
     }
 });
 
+/**
+ * GET /api/analytics/skill-progress
+ * Returns per-skill progress data for the logged-in candidate.
+ * Groups all assessments by skillName and returns time-series
+ * of { attempt, date, score, level } for each skill.
+ *
+ * Response format:
+ * {
+ *   skills: {
+ *     "React Frontend Development": [
+ *       { attempt: 1, date: "2026-03-05", score: 72, level: "Intermediate" },
+ *       { attempt: 2, date: "2026-03-08", score: 85, level: "Advanced" }
+ *     ],
+ *     "Python Backend": [ ... ]
+ *   },
+ *   skillList: ["React Frontend Development", "Python Backend"]
+ * }
+ */
+router.get('/skill-progress', protect, authorize('candidate'), (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const myAssessments = store.find('assessments', a => a.candidateId === userId)
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        if (myAssessments.length === 0) {
+            return res.json({ success: true, skills: {}, skillList: [] });
+        }
+
+        // Group by skill name
+        const grouped = {};
+        myAssessments.forEach(a => {
+            const skill = a.skillName || 'Unknown';
+            if (!grouped[skill]) grouped[skill] = [];
+            grouped[skill].push(a);
+        });
+
+        // Build time-series per skill
+        const skills = {};
+        for (const [skillName, assessments] of Object.entries(grouped)) {
+            skills[skillName] = assessments.map((a, idx) => ({
+                attempt: idx + 1,
+                date: a.createdAt
+                    ? new Date(a.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                    : `Attempt ${idx + 1}`,
+                fullDate: a.createdAt || null,
+                score: a.overallScore || 0,
+                level: a.skillLevel || 'Beginner',
+                passed: !!a.passed,
+            }));
+        }
+
+        const skillList = Object.keys(skills).sort();
+
+        res.json({ success: true, skills, skillList });
+    } catch (error) {
+        console.error('Skill progress error:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch skill progress', error: error.message });
+    }
+});
+
 module.exports = router;

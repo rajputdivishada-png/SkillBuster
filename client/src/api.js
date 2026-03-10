@@ -63,5 +63,6 @@ export const getLeaderboard = () => API.get('/leaderboard');
 // Analytics
 export const getAnalyticsCandidate = () => API.get('/analytics/candidate');
 export const getAnalyticsTalent = (skill) => API.get('/analytics/talent', { params: skill ? { skill } : {} });
+export const getSkillProgress = () => API.get('/analytics/skill-progress');
 
 export default API;

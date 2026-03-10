@@ -10,11 +10,11 @@
  */
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getAnalyticsCandidate, getAnalyticsTalent } from '../api';
+import { getAnalyticsCandidate, getAnalyticsTalent, getSkillProgress } from '../api';
 import { motion } from 'framer-motion';
 import {
     BarChart3, TrendingUp, Radar, Activity,
-    Target, Award, Percent, Zap
+    Target, Award, Percent, Zap, Layers
 } from 'lucide-react';
 import {
     RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
@@ -42,6 +42,18 @@ const COLORS = {
 
 const BAR_COLORS = ['#64748b', '#10b981', '#6366f1', '#f59e0b'];
 
+// Per-skill chart colors — cycle through these
+const SKILL_COLORS = [
+    { stroke: '#10b981', fill: '#10b981' },  // emerald
+    { stroke: '#6366f1', fill: '#6366f1' },  // indigo
+    { stroke: '#f59e0b', fill: '#f59e0b' },  // gold
+    { stroke: '#3b82f6', fill: '#3b82f6' },  // blue
+    { stroke: '#ec4899', fill: '#ec4899' },  // pink
+    { stroke: '#06b6d4', fill: '#06b6d4' },  // cyan
+    { stroke: '#8b5cf6', fill: '#8b5cf6' },  // violet
+    { stroke: '#ef4444', fill: '#ef4444' },  // red
+];
+
 /* ── Custom Tooltip Component ─────────────── */
 function CustomTooltip({ active, payload, label }) {
     if (!active || !payload?.length) return null;
@@ -53,6 +65,25 @@ function CustomTooltip({ active, payload, label }) {
                     {entry.name}: <strong>{entry.value}</strong>
                 </p>
             ))}
+        </div>
+    );
+}
+
+/* ── Skill Progress Tooltip ───────────────── */
+function SkillTooltip({ active, payload, label }) {
+    if (!active || !payload?.length) return null;
+    const d = payload[0]?.payload;
+    return (
+        <div className="an-tooltip">
+            <p className="an-tooltip-label">{d?.date || label}</p>
+            <p className="an-tooltip-value" style={{ color: payload[0]?.color || '#10b981' }}>
+                Score: <strong>{d?.score}/100</strong>
+            </p>
+            {d?.level && (
+                <p className="an-tooltip-value" style={{ color: 'var(--text-muted)', fontSize: '11px' }}>
+                    Level: {d.level} {d.passed ? '✅' : '❌'}
+                </p>
+            )}
         </div>
     );
 }
@@ -93,6 +124,10 @@ export default function AnalyticsDashboard() {
     const [availableSkills, setAvailableSkills] = useState([]);
     const [selectedSkill, setSelectedSkill] = useState('');
 
+    // Skill progress data
+    const [skillProgressData, setSkillProgressData] = useState({});
+    const [skillList, setSkillList] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -101,10 +136,15 @@ export default function AnalyticsDashboard() {
         if (!isCandidate) return;
         const fetchData = async () => {
             try {
-                const { data } = await getAnalyticsCandidate();
-                setRadarData(data.radarData || []);
-                setGrowthData(data.growthData || []);
-                setStats(data.stats || null);
+                const [analyticsRes, progressRes] = await Promise.all([
+                    getAnalyticsCandidate(),
+                    getSkillProgress()
+                ]);
+                setRadarData(analyticsRes.data.radarData || []);
+                setGrowthData(analyticsRes.data.growthData || []);
+                setStats(analyticsRes.data.stats || null);
+                setSkillProgressData(progressRes.data.skills || {});
+                setSkillList(progressRes.data.skillList || []);
             } catch (err) {
                 console.error('Analytics fetch error:', err);
                 setError('Failed to load analytics.');
@@ -316,6 +356,120 @@ export default function AnalyticsDashboard() {
                             )}
                         </motion.div>
                     </div>
+
+                    {/* ── Chart 3: Per-Skill Progress Graphs ── */}
+                    {skillList.length > 0 && (
+                        <motion.div
+                            className="an-skill-progress-section"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                            <div className="an-chart-header" style={{ marginBottom: '20px' }}>
+                                <Layers size={18} className="an-chart-icon" />
+                                <div>
+                                    <h3>Skill Progress by Field</h3>
+                                    <p>Track your improvement in each skill over time</p>
+                                </div>
+                            </div>
+
+                            <div className="an-skill-progress-grid">
+                                {skillList.map((skillName, idx) => {
+                                    const data = skillProgressData[skillName] || [];
+                                    const color = SKILL_COLORS[idx % SKILL_COLORS.length];
+                                    const latestScore = data.length > 0 ? data[data.length - 1].score : 0;
+                                    const latestLevel = data.length > 0 ? data[data.length - 1].level : '—';
+                                    const improvement = data.length >= 2
+                                        ? data[data.length - 1].score - data[0].score
+                                        : 0;
+                                    const gradientId = `skillGrad-${idx}`;
+
+                                    return (
+                                        <motion.div
+                                            key={skillName}
+                                            className="an-skill-card"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 * idx }}
+                                        >
+                                            {/* Skill card header */}
+                                            <div className="an-skill-card-header">
+                                                <div>
+                                                    <h4 className="an-skill-card-title">{skillName}</h4>
+                                                    <div className="an-skill-card-meta">
+                                                        <span className="an-skill-badge" style={{ background: `${color.stroke}15`, color: color.stroke }}>
+                                                            {latestLevel}
+                                                        </span>
+                                                        <span className="an-skill-attempts">{data.length} attempt{data.length !== 1 ? 's' : ''}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="an-skill-score-display">
+                                                    <span className="an-skill-score-num" style={{ color: color.stroke }}>{latestScore}</span>
+                                                    <span className="an-skill-score-label">Latest</span>
+                                                    {improvement !== 0 && (
+                                                        <span className={`an-skill-delta ${improvement > 0 ? 'an-skill-delta-up' : 'an-skill-delta-down'}`}>
+                                                            {improvement > 0 ? '↑' : '↓'} {Math.abs(improvement)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Chart */}
+                                            {data.length > 1 ? (
+                                                <div className="an-skill-chart">
+                                                    <ResponsiveContainer width="100%" height={180}>
+                                                        <AreaChart data={data} margin={{ top: 8, right: 12, left: -20, bottom: 0 }}>
+                                                            <defs>
+                                                                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                                                                    <stop offset="5%" stopColor={color.fill} stopOpacity={0.25} />
+                                                                    <stop offset="95%" stopColor={color.fill} stopOpacity={0} />
+                                                                </linearGradient>
+                                                            </defs>
+                                                            <CartesianGrid strokeDasharray="3 3" stroke={COLORS.gridStroke} />
+                                                            <XAxis
+                                                                dataKey="date"
+                                                                tick={{ fill: COLORS.textMuted, fontSize: 10 }}
+                                                                axisLine={{ stroke: COLORS.gridStroke }}
+                                                                tickLine={false}
+                                                            />
+                                                            <YAxis
+                                                                domain={[0, 100]}
+                                                                tick={{ fill: COLORS.textMuted, fontSize: 10 }}
+                                                                axisLine={false}
+                                                                tickLine={false}
+                                                            />
+                                                            <Tooltip content={<SkillTooltip />} />
+                                                            <Area
+                                                                type="monotone"
+                                                                dataKey="score"
+                                                                name="Score"
+                                                                stroke={color.stroke}
+                                                                strokeWidth={2.5}
+                                                                fill={`url(#${gradientId})`}
+                                                                dot={{ r: 4, fill: color.stroke, strokeWidth: 2, stroke: '#0c0c1c' }}
+                                                                activeDot={{ r: 6, fill: COLORS.goldLight, stroke: COLORS.gold, strokeWidth: 2 }}
+                                                            />
+                                                        </AreaChart>
+                                                    </ResponsiveContainer>
+                                                </div>
+                                            ) : data.length === 1 ? (
+                                                <div className="an-skill-single">
+                                                    <div className="an-skill-single-score" style={{ color: color.stroke }}>
+                                                        {data[0].score}<span>/100</span>
+                                                    </div>
+                                                    <p>Complete more attempts to see your progress trend</p>
+                                                </div>
+                                            ) : (
+                                                <div className="an-skill-empty">
+                                                    <p>No data yet</p>
+                                                </div>
+                                            )}
+                                        </motion.div>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    )}
                 </>
             )}
 
