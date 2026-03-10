@@ -14,6 +14,7 @@ import EmployerDashboard from './pages/EmployerDashboard';
 import VerifyBadge from './pages/VerifyBadge';
 import Leaderboard from './pages/Leaderboard';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import Walkthrough from './pages/Walkthrough';
 
 function ProtectedRoute({ children, role }) {
     const { user, loading } = useAuth();
@@ -42,6 +43,7 @@ function AppRoutes() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/walkthrough" element={<Walkthrough />} />
                 <Route
                     path="/analytics"
                     element={

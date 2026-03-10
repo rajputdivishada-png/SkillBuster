@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SkillProof — 60s Product Walkthrough</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #050a18;
+            font-family: 'Inter', sans-serif;
+            color: #f1f5f9
+        }
+
+        /* === SCENE SYSTEM === */
+        .sc {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none
+        }
+
+        .sc.on {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        /* === BOTTOM CAPTION === */
+        #captionBar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            background: linear-gradient(0deg, rgba(0, 0, 0, .92), rgba(0, 0, 0, .5) 70%, transparent);
+            padding: 40px 64px 36px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between
+        }
+
+        #capText {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            max-width: 820px;
+            line-height: 1.55;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, .8);
+            transition: opacity .5s
+        }
+
+        #capLabel {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #f5a623;
+            padding: 6px 18px;
+            border: 1px solid rgba(245, 166, 35, .25);
+            border-radius: 20px;
+            background: rgba(245, 166, 35, .07);
+            white-space: nowrap
+        }
+
+        /* === TOP BAR === */
+        #topBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 900;
+            color: #fff
+        }
+
+        .logo-txt {
+            font-family: 'Outfit', sans-serif;
+            font-size: 19px;
+            font-weight: 800
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pDot 2s ease infinite;
+            margin-left: 6px
+        }
+
+        @keyframes pDot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.5)
+            }
+        }
+
+        #timer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #64748b;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .06);
+            padding: 5px 14px;
+            border-radius: 7px
+        }
+
+        /* === PROGRESS === */
+        #progWrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            z-index: 999;
+            background: rgba(255, 255, 255, .04)
+        }
+
+        #progFill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #f5a623);
+            transition: width .25s linear
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(20px, -30px)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes shimmer {
+            to {
+                transform: translateX(100%)
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(.7)
+            }
+
+            60% {
+                transform: scale(1.08)
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        @keyframes fillBar {
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes ringDraw {
+            to {
+                stroke-dasharray: 534 565
+            }
+        }
+
+        .aFU {
+            opacity: 0;
+            animation: fadeUp .7s ease forwards
+        }
+
+        /* ============ SCENE 1: LANDING ============ */
+        .s1 {
+            background: linear-gradient(160deg, #050a18, #0c1640 50%, #050a18)
+        }
+
+        .s1-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(99, 102, 241, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, .03) 1px, transparent 1px);
+            background-size: 56px 56px
+        }
+
+        .s1-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 9s ease-in-out infinite
+        }
+
+        .s1-o1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, .1);
+            top: -15%;
+            left: -5%
+        }
+
+        .s1-o2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(139, 92, 246, .08);
+            bottom: -10%;
+            right: 0;
+            animation-delay: -4s
+        }
+
+        .s1-c {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .s1-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 22px;
+            background: rgba(99, 102, 241, .08);
+            border: 1px solid rgba(99, 102, 241, .18);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #a5b4fc;
+            margin-bottom: 28px
+        }
+
+        .s1-chip .cd {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pDot 2s ease infinite
+        }
+
+        .s1-h {
+            font-family: 'Outfit', sans-serif;
+            font-size: min(7.5vw, 88px);
+            font-weight: 900;
+            line-height: 1.08;
+            text-align: center
+        }
+
+        .s1-grad {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .s1-gold {
+            background: linear-gradient(135deg, #f5a623, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .s1-sub {
+            font-size: 20px;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 580px;
+            line-height: 1.7;
+            margin-top: 24px
+        }
+
+        .s1-cta {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px
+        }
+
+        .s1-btn {
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .s1-bp {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 28px rgba(99, 102, 241, .3)
+        }
+
+        .s1-bg2 {
+            background: rgba(255, 255, 255, .05);
+            color: #f1f5f9;
+            border: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        /* Steps row */
+        .s1-steps {
+            position: absolute;
+            bottom: 100px;
+            display: flex;
+            gap: 32px
+        }
+
+        .s1-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .s1-step-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0
+        }
+
+        .s1-step-t {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8
+        }
+
+        /* ============ SCENE 2: RECORD TASK ============ */
+        .s2 {
+            background: linear-gradient(160deg, #050a18, #0a1030, #050a18)
+        }
+
+        .s2-lay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            padding: 80px
+        }
+
+        .s2-panel {
+            width: 440px;
+            background: rgba(10, 10, 28, .92);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 20px;
+            padding: 36px;
+            backdrop-filter: blur(16px)
+        }
+
+        .s2-panel h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px
+        }
+
+        .s2-panel>p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 24px
+        }
+
+        .s2-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .s2-sk {
+            padding: 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .02);
+            border: 2px solid rgba(255, 255, 255, .06);
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: #94a3b8;
+            transition: all .3s
+        }
+
+        .s2-sk.sel {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, .1);
+            color: #818cf8
+        }
+
+        .s2-sk .si {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 6px
+        }
+
+        .s2-rec {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 24px rgba(239, 68, 68, .25);
+            position: relative;
+            overflow: hidden
+        }
+
+        .s2-rec::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2.5s ease infinite 1s
+        }
+
+        .s2-rd {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            animation: pDot 1.2s ease infinite
+        }
+
+        .s2-prev {
+            width: 480px;
+            height: 360px;
+            border-radius: 18px;
+            background: #12121f;
+            border: 1px solid rgba(255, 255, 255, .06);
+            overflow: hidden
+        }
+
+        .s2-pt {
+            height: 32px;
+            background: rgba(0, 0, 0, .35);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px
+        }
+
+        .s2-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%
+        }
+
+        .s2-ptxt {
+            font-size: 11px;
+            color: #64748b;
+            margin-left: 10px;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .s2-body {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #a5b4fc;
+            line-height: 1.8
+        }
+
+        .kw {
+            color: #c678dd
+        }
+
+        .fn {
+            color: #61afef
+        }
+
+        .str {
+            color: #98c379
+        }
+
+        .cm {
+            color: #546178;
+            font-style: italic
+        }
+
+        .tg {
+            color: #e06c75
+        }
+
+        .at {
+            color: #d19a66
+        }
+
+        .cur {
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background: #f5a623;
+            animation: blink .8s step-end infinite;
+            vertical-align: text-bottom;
+            margin-left: 1px
+        }
+
+        /* ============ SCENE 3: LIVE CODING ============ */
+        .s3 {
+            background: #050a18
+        }
+
+        .s3-split {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr
+        }
+
+        .s3-code {
+            background: linear-gradient(135deg, #0d1117, #161b22);
+            position: relative;
+            overflow: hidden
+        }
+
+        .s3-cam {
+            background: linear-gradient(135deg, #0a1030, #050a18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative
+        }
+
+        .s3-div {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            z-index: 10;
+            background: linear-gradient(180deg, transparent, #6366f1, #f5a623, transparent)
+        }
+
+        .s3-vtop {
+            height: 36px;
+            background: #1e1e2e;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 7px;
+            border-bottom: 1px solid rgba(255, 255, 255, .05)
+        }
+
+        .s3-tab {
+            padding: 7px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 5px 5px 0 0;
+            background: rgba(99, 102, 241, .1);
+            color: #818cf8;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .s3-vcode {
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.85;
+            color: #94a3b8;
+            counter-reset: ln
+        }
+
+        .s3-vcode .l {
+            counter-increment: ln;
+            display: block;
+            padding-left: 44px;
+            position: relative
+        }
+
+        .s3-vcode .l::before {
+            content: counter(ln);
+            position: absolute;
+            left: 0;
+            width: 28px;
+            text-align: right;
+            color: #4a5568;
+            font-size: 11px
+        }
+
+        .s3-wc {
+            width: 280px;
+            height: 210px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1a1a3e, #252550);
+            border: 2px solid rgba(255, 255, 255, .07);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .s3-wc svg {
+            opacity: .12
+        }
+
+        .s3-wc-lab {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            background: rgba(239, 68, 68, .9);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .s3-wc-lab .rd2 {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #fff;
+            animation: pDot 1s ease infinite
+        }
+
+        .s3-lab {
+            position: absolute;
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, .55);
+            border: 1px solid rgba(255, 255, 255, .06);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700
+        }
+
+        .s3-lab1 {
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-100%)
+        }
+
+        .s3-lab2 {
+            bottom: 60px;
+            right: 20%
+        }
+
+        .s3-timer {
+            position: absolute;
+            top: 80px;
+            right: 20%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            color: #f5a623;
+            text-shadow: 0 0 30px rgba(245, 166, 35, .3)
+        }
+
+        /* ============ SCENE 4: AI PROCESSING ============ */
+        .s4 {
+            background: radial-gradient(ellipse at center, #0c1640, #050a18 70%)
+        }
+
+        .s4-c {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .s4-brain {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 36px
+        }
+
+        .s4-bc {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, .18), transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px
+        }
+
+        .s4-r {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(99, 102, 241, .12);
+            animation: spin 8s linear infinite
+        }
+
+        .s4-r1 {
+            inset: -18px
+        }
+
+        .s4-r2 {
+            inset: -46px;
+            border-width: 1px;
+            border-color: rgba(245, 166, 35, .08);
+            animation-direction: reverse;
+            animation-duration: 12s
+        }
+
+        .s4-r3 {
+            inset: -72px;
+            border-width: 1px;
+            border-style: dashed;
+            border-color: rgba(99, 102, 241, .06);
+            animation-duration: 18s
+        }
+
+        .s4-nd {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6366f1;
+            animation: pDot 2s ease infinite
+        }
+
+        .s4-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center
+        }
+
+        .s4-sub {
+            font-size: 16px;
+            color: #94a3b8;
+            text-align: center;
+            margin: 12px 0 28px
+        }
+
+        .s4-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .s4-tag {
+            padding: 9px 18px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, .05);
+            background: rgba(255, 255, 255, .03);
+            color: #94a3b8;
+            opacity: 0;
+            animation: popIn .4s ease forwards
+        }
+
+        .s4-bar {
+            width: 360px;
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, .05);
+            margin-top: 28px;
+            overflow: hidden
+        }
+
+        .s4-bf {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #6366f1, #f5a623);
+            width: 0%;
+            animation: fillBar 8s ease forwards .4s
+        }
+
+        /* JSON scroll */
+        .s4-json {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 340px;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, .3);
+            border: 1px solid rgba(255, 255, 255, .04);
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #546178;
+            line-height: 1.7
+        }
+
+        .s4-json-scroll {
+            animation: jsonScroll 8s linear infinite
+        }
+
+        @keyframes jsonScroll {
+            from {
+                transform: translateY(0)
+            }
+
+            to {
+                transform: translateY(-50%)
+            }
+        }
+
+        /* ============ SCENE 5: BADGE ============ */
+        .s5 {
+            background: radial-gradient(ellipse at center, #0e1840, #050a18)
+        }
+
+        .s5-c {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 72px
+        }
+
+        .s5-card {
+            width: 360px;
+            padding: 44px 32px;
+            text-align: center;
+            border-radius: 22px;
+            background: linear-gradient(145deg, rgba(10, 10, 28, .95), rgba(5, 5, 14, .95));
+            border: 1px solid rgba(245, 166, 35, .12);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, .5), 0 0 50px rgba(245, 166, 35, .04);
+            animation: popIn 1s ease forwards
+        }
+
+        .s5-shim {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(245, 166, 35, .03) 50%, transparent 60%);
+            animation: shimmer 3s ease infinite
+        }
+
+        .s5-aw {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #f5a623, #fbbf24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 6px 32px rgba(245, 166, 35, .22)
+        }
+
+        .s5-vt {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #f5a623;
+            font-weight: 700;
+            margin-bottom: 14px
+        }
+
+        .s5-nm {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 3px
+        }
+
+        .s5-sk {
+            font-size: 15px;
+            color: #94a3b8;
+            margin-bottom: 14px
+        }
+
+        .s5-lv {
+            display: inline-block;
+            padding: 5px 18px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, .1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, .18);
+            margin-bottom: 16px
+        }
+
+        .s5-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 16px;
+            position: relative
+        }
+
+        .s5-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg)
+        }
+
+        .s5-ring .rb {
+            fill: none;
+            stroke: rgba(255, 255, 255, .05);
+            stroke-width: 6
+        }
+
+        .s5-ring .rf {
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 0 283;
+            animation: ringDraw85 1.5s ease forwards .5s
+        }
+
+        @keyframes ringDraw85 {
+            to {
+                stroke-dasharray: 240 283
+            }
+        }
+
+        .s5-rv {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .s5-rn {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: #10b981
+        }
+
+        .s5-rl {
+            font-size: 9px;
+            color: #64748b;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase
+        }
+
+        .s5-qr {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 12px;
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px;
+            position: relative
+        }
+
+        .s5-qr-glow {
+            position: absolute;
+            inset: -3px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #6366f1, #f5a623);
+            opacity: .25;
+            filter: blur(6px);
+            z-index: -1;
+            animation: qrG 3s ease infinite
+        }
+
+        @keyframes qrG {
+
+            0%,
+            100% {
+                opacity: .18
+            }
+
+            50% {
+                opacity: .4
+            }
+        }
+
+        .s5-qr-g {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            grid-template-rows: repeat(11, 1fr);
+            gap: 1px
+        }
+
+        .qd {
+            background: #1a1f35;
+            border-radius: 1px
+        }
+
+        .ql {
+            background: #fff;
+            border-radius: 1px
+        }
+
+        .s5-stxt {
+            font-size: 11px;
+            color: #64748b
+        }
+
+        .s5-info {
+            max-width: 380px
+        }
+
+        .s5-info h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 14px
+        }
+
+        .s5-info p {
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px
+        }
+
+        .s5-feat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px
+        }
+
+        .s5-fi {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0
+        }
+
+        .s5-ft {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500
+        }
+
+        /* ============ SCENE 6: EMPLOYER ============ */
+        .s6 {
+            background: linear-gradient(160deg, #050a18, #0a1030)
+        }
+
+        .s6-lay {
+            position: absolute;
+            inset: 0;
+            padding: 76px 56px;
+            display: flex;
+            flex-direction: column
+        }
+
+        .s6-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px
+        }
+
+        .s6-top h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800
+        }
+
+        .s6-fils {
+            display: flex;
+            gap: 10px
+        }
+
+        .s6-fil {
+            padding: 9px 20px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, .05);
+            background: rgba(255, 255, 255, .02);
+            color: #94a3b8
+        }
+
+        .s6-fil.act {
+            background: rgba(99, 102, 241, .1);
+            border-color: #6366f1;
+            color: #818cf8
+        }
+
+        .s6-tbl {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 7px
+        }
+
+        .s6-tbl th {
+            text-align: left;
+            padding: 10px 18px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #4a5568;
+            letter-spacing: 1px;
+            text-transform: uppercase
+        }
+
+        .s6-tbl td {
+            padding: 14px 18px;
+            background: rgba(10, 10, 28, .8);
+            font-size: 13px;
+            color: #94a3b8
+        }
+
+        .s6-tbl tr td:first-child {
+            border-radius: 10px 0 0 10px
+        }
+
+        .s6-tbl tr td:last-child {
+            border-radius: 0 10px 10px 0
+        }
+
+        .s6-av {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            margin-right: 10px;
+            vertical-align: middle
+        }
+
+        .s6-stag {
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600
+        }
+
+        .s6-sc {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700
+        }
+
+        .s6-vb {
+            padding: 7px 14px;
+            border-radius: 7px;
+            border: 1px solid rgba(16, 185, 129, .25);
+            background: rgba(16, 185, 129, .06);
+            color: #10b981;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        /* Phone */
+        .s6-ph {
+            position: absolute;
+            right: 64px;
+            bottom: 40px;
+            width: 180px;
+            height: 340px;
+            border-radius: 24px;
+            background: #111;
+            border: 3px solid rgba(255, 255, 255, .08);
+            overflow: hidden;
+            box-shadow: 0 16px 50px rgba(0, 0, 0, .6);
+            transform: rotate(-4deg);
+            z-index: 10;
+            animation: popIn 1s ease forwards 1s;
+            opacity: 0
+        }
+
+        .s6-ps {
+            position: absolute;
+            inset: 7px;
+            border-radius: 19px;
+            background: linear-gradient(180deg, #0c1640, #050a18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 20px
+        }
+
+        .s6-pc {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, .12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 2px solid #10b981
+        }
+
+        .s6-pt {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: #10b981
+        }
+
+        .s6-pu {
+            font-size: 10px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress -->
+    <div id="progWrap">
+        <div id="progFill"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div id="topBar">
+        <div class="logo">
+            <div class="logo-box">SP</div><span class="logo-txt">SkillProof</span><span class="live-dot"></span>
+        </div>
+        <div id="timer">0:00 / 1:00</div>
+    </div>
+
+    <!-- Caption -->
+    <div id="captionBar">
+        <div id="capText"></div>
+        <div id="capLabel"></div>
+    </div>
+
+    <!-- SCENE 1: LANDING -->
+    <div class="sc on" id="s1">
+        <div class="s1">
+            <div class="s1-grid"></div>
+            <div class="s1-orb s1-o1"></div>
+            <div class="s1-orb s1-o2"></div>
+            <div class="s1-c">
+                <div class="s1-chip aFU" style="animation-delay:.4s"><span class="cd"></span>✦ AI-Powered Skill
+                    Verification</div>
+                <h1 class="s1-h aFU" style="animation-delay:.7s">Your Skills.<br><span class="s1-grad">Proven.</span>
+                    <span class="s1-gold">Not Claimed.</span></h1>
+                <p class="s1-sub aFU" style="animation-delay:1s">Record a task. Get AI-verified by Gemini
+                    Vision.<br>Earn a digital badge employers trust.</p>
+                <div class="s1-cta aFU" style="animation-delay:1.3s">
+                    <button class="s1-btn s1-bp">I'm a Candidate →</button>
+                    <button class="s1-btn s1-bg2">I'm an Employer 🔍</button>
+                </div>
+                <div class="s1-steps aFU" style="animation-delay:1.6s">
+                    <div class="s1-step">
+                        <div class="s1-step-n">1</div>
+                        <div class="s1-step-t">Record Task</div>
+                    </div>
+                    <div class="s1-step">
+                        <div class="s1-step-n">2</div>
+                        <div class="s1-step-t">AI Evaluates</div>
+                    </div>
+                    <div class="s1-step">
+                        <div class="s1-step-n">3</div>
+                        <div class="s1-step-t">Get Badge</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 2: RECORD TASK -->
+    <div class="sc" id="s2">
+        <div class="s2">
+            <div class="s2-lay">
+                <div class="s2-panel aFU" style="animation-delay:.2s">
+                    <h2>🎯 Choose Your Skill</h2>
+                    <p>Select the skill you want to demonstrate</p>
+                    <div class="s2-grid">
+                        <div class="s2-sk sel"><span class="si">⚛️</span>React Frontend</div>
+                        <div class="s2-sk"><span class="si">🐍</span>Python Backend</div>
+                        <div class="s2-sk"><span class="si">🔌</span>Electrical</div>
+                        <div class="s2-sk"><span class="si">🍳</span>Culinary Arts</div>
+                    </div>
+                    <button class="s2-rec"><span class="s2-rd"></span> Record Task</button>
+                </div>
+                <div class="s2-prev aFU" style="animation-delay:.5s">
+                    <div class="s2-pt"><span class="s2-dot" style="background:#ff5f57"></span><span class="s2-dot"
+                            style="background:#febc2e"></span><span class="s2-dot"
+                            style="background:#28c840"></span><span class="s2-ptxt">RecordTask.jsx</span></div>
+                    <div class="s2-body">
+                        <span class="kw">import</span> { <span class="fn">useState</span>, <span
+                            class="fn">useRef</span> } <span class="kw">from</span> <span class="str">'react'</span>;
+                        <span class="kw">import</span> { <span class="fn">uploadVideo</span> } <span
+                            class="kw">from</span> <span class="str">'../api'</span>;
+
+                        <span class="cm">// Real-time screen capture component</span>
+                        <span class="kw">export default function</span> <span class="fn">RecordTask</span>() {
+                        <span class="kw">const</span> [isRec, setRec] = <span class="fn">useState</span>(false);
+                        <span class="kw">const</span> streamRef = <span class="fn">useRef</span>(null);
+
+                        <span class="kw">const</span> <span class="fn">start</span> = <span class="kw">async</span> ()
+                        => {
+                        <span class="kw">const</span> s = <span class="kw">await</span> navigator
+                        .mediaDevices.<span class="fn">getDisplayMedia</span>();
+                        streamRef.current = s;
+                        setRec(true);
+                        };
+
+                        <span class="kw">return</span> (
+                        <span class="tg">&lt;button</span> <span class="at">onClick</span>={start}<span
+                            class="tg">&gt;</span>
+                        {isRec ? <span class="str">"Stop"</span> : <span class="str">"Record"</span>}
+                        <span class="tg">&lt;/button&gt;</span>
+                        );
+                        }<span class="cur"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 3: LIVE CODING -->
+    <div class="sc" id="s3">
+        <div class="s3">
+            <div class="s3-split">
+                <div class="s3-code">
+                    <div class="s3-vtop">
+                        <div class="s3-tab">Dashboard.jsx</div>
+                    </div>
+                    <div class="s3-vcode">
+                        <span class="l"><span class="kw">import</span> { <span class="fn">useState</span> } <span
+                                class="kw">from</span> <span class="str">'react'</span>;</span>
+                        <span class="l"><span class="kw">import</span> <span class="fn">TaskCard</span> <span
+                                class="kw">from</span> <span class="str">'./TaskCard'</span>;</span>
+                        <span class="l"></span>
+                        <span class="l"><span class="cm">// Main Dashboard Component</span></span>
+                        <span class="l"><span class="kw">export default function</span> <span
+                                class="fn">Dashboard</span>() {</span>
+                        <span class="l"> <span class="kw">const</span> [tasks, setTasks] = <span
+                                class="fn">useState</span>([]);</span>
+                        <span class="l"> <span class="kw">const</span> [filter, setF] = <span
+                                class="fn">useState</span>(<span class="str">'all'</span>);</span>
+                        <span class="l"></span>
+                        <span class="l"> <span class="kw">const</span> <span class="fn">handleSubmit</span> = <span
+                                class="kw">async</span> () => {</span>
+                        <span class="l"> <span class="kw">const</span> res = <span class="kw">await</span> <span
+                                class="fn">fetch</span>(<span class="str">'/api/assess'</span>);</span>
+                        <span class="l"> <span class="kw">const</span> data = <span class="kw">await</span> res.<span
+                                class="fn">json</span>();</span>
+                        <span class="l"> <span class="fn">setTasks</span>(p => [...p, data]);</span>
+                        <span class="l"> };</span>
+                        <span class="l"></span>
+                        <span class="l"> <span class="kw">return</span> (</span>
+                        <span class="l"> <span class="tg">&lt;div</span> <span class="at">className</span>=<span
+                                class="str">"dashboard"</span><span class="tg">&gt;</span></span>
+                        <span class="l"> <span class="tg">&lt;h1&gt;</span>My Assessments<span
+                                class="tg">&lt;/h1&gt;</span></span>
+                        <span class="l"> {tasks.<span class="fn">map</span>(t => (</span>
+                        <span class="l"> <span class="tg">&lt;TaskCard</span> <span class="at">key</span>={t.id} {...t}
+                            /&gt;</span>
+                        <span class="l"> ))}</span>
+                        <span class="l"> <span class="tg">&lt;/div&gt;</span></span>
+                        <span class="l"> );</span>
+                        <span class="l">}<span class="cur"></span></span>
+                    </div>
+                </div>
+                <div class="s3-cam">
+                    <div class="s3-wc">
+                        <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                        <div class="s3-wc-lab"><span class="rd2"></span>REC 03:42</div>
+                    </div>
+                    <div class="s3-timer">04:18</div>
+                </div>
+            </div>
+            <div class="s3-div"></div>
+            <div class="s3-lab s3-lab1">📺 Live Screen Capture</div>
+            <div class="s3-lab s3-lab2">📹 Video Capture</div>
+        </div>
+    </div>
+
+    <!-- SCENE 4: AI PROCESSING -->
+    <div class="sc" id="s4">
+        <div class="s4">
+            <div class="s4-c">
+                <div class="s4-brain">
+                    <div class="s4-r s4-r1"></div>
+                    <div class="s4-r s4-r2"></div>
+                    <div class="s4-r s4-r3"></div>
+                    <div class="s4-bc">🧠</div>
+                    <div class="s4-nd" style="top:8%;left:48%"></div>
+                    <div class="s4-nd" style="top:28%;left:88%;animation-delay:.3s"></div>
+                    <div class="s4-nd" style="top:68%;left:84%;animation-delay:.6s"></div>
+                    <div class="s4-nd" style="top:88%;left:48%;animation-delay:.9s"></div>
+                    <div class="s4-nd" style="top:68%;left:12%;animation-delay:1.2s"></div>
+                    <div class="s4-nd" style="top:28%;left:8%;animation-delay:1.5s"></div>
+                </div>
+                <div class="s4-title">Gemini AI <span class="s1-grad">Analyzing</span></div>
+                <div class="s4-sub">Auditing logic, accuracy, and best practices</div>
+                <div class="s4-tags">
+                    <div class="s4-tag" style="animation-delay:.4s">✓ useState Hook</div>
+                    <div class="s4-tag" style="animation-delay:.7s">✓ Component Structure</div>
+                    <div class="s4-tag" style="animation-delay:1s">✓ Error Handling</div>
+                    <div class="s4-tag" style="animation-delay:1.3s">✓ API Integration</div>
+                    <div class="s4-tag" style="animation-delay:1.6s">✓ Best Practices</div>
+                </div>
+                <div class="s4-bar">
+                    <div class="s4-bf"></div>
+                </div>
+            </div>
+            <div class="s4-json">
+                <div class="s4-json-scroll">
+                    {
+                    "model": "gemini-1.5-flash",
+                    "analysis": {
+                    "technicalAccuracy": {
+                    "score": 90,
+                    "observation": "Correct use of useState"
+                    },
+                    "efficiency": {
+                    "score": 88,
+                    "observation": "Clean async patterns"
+                    },
+                    "bestPractices": {
+                    "score": 85,
+                    "observation": "Good component structure"
+                    },
+                    "problemSolving": {
+                    "score": 92,
+                    "observation": "Logical approach"
+                    }
+                    },
+                    "verifiedSkills": [
+                    "React Hooks",
+                    "State Management",
+                    "API Integration",
+                    "JSX Patterns"
+                    ],
+                    "passed": true,
+                    "overallScore": 85
+                    }
+                    {
+                    "model": "gemini-1.5-flash",
+                    "analysis": {
+                    "technicalAccuracy": {
+                    "score": 90,
+                    "observation": "Correct use of useState"
+                    },
+                    "efficiency": {
+                    "score": 88,
+                    "observation": "Clean async patterns"
+                    },
+                    "bestPractices": {
+                    "score": 85,
+                    "observation": "Good component structure"
+                    },
+                    "problemSolving": {
+                    "score": 92,
+                    "observation": "Logical approach"
+                    }
+                    },
+                    "verifiedSkills": [
+                    "React Hooks",
+                    "State Management"
+                    ],
+                    "passed": true,
+                    "overallScore": 85
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 5: BADGE -->
+    <div class="sc" id="s5">
+        <div class="s5">
+            <div class="s5-c">
+                <div class="s5-card">
+                    <div class="s5-shim"></div>
+                    <div class="s5-aw">🏆</div>
+                    <div class="s5-vt">VERIFIED SKILL BADGE</div>
+                    <div class="s5-nm">Jesh M.</div>
+                    <div class="s5-sk">React Frontend Development</div>
+                    <div class="s5-lv">Expert</div>
+                    <div class="s5-ring">
+                        <svg viewBox="0 0 120 120">
+                            <circle class="rb" cx="60" cy="60" r="45" />
+                            <circle class="rf" cx="60" cy="60" r="45" />
+                        </svg>
+                        <div class="s5-rv">
+                            <div class="s5-rn">85</div>
+                            <div class="s5-rl">Score</div>
+                        </div>
+                    </div>
+                    <div class="s5-qr">
+                        <div class="s5-qr-glow"></div>
+                        <div class="s5-qr-g" id="qrG"></div>
+                    </div>
+                    <div class="s5-stxt">Scan to verify</div>
+                </div>
+                <div class="s5-info">
+                    <h2>Tamper-Proof<br><span class="s1-gold">Digital Badges</span></h2>
+                    <p>Your badge contains the full AI report and a unique QR code for instant verification — no account
+                        needed.</p>
+                    <div class="s5-feat">
+                        <div class="s5-fi" style="background:rgba(99,102,241,.1);color:#818cf8">🔗</div>
+                        <div class="s5-ft">Unique UUID-based verification URL</div>
+                    </div>
+                    <div class="s5-feat">
+                        <div class="s5-fi" style="background:rgba(245,166,35,.1);color:#f5a623">🛡️</div>
+                        <div class="s5-ft">Tamper-proof with full audit trail</div>
+                    </div>
+                    <div class="s5-feat">
+                        <div class="s5-fi" style="background:rgba(16,185,129,.1);color:#10b981">📱</div>
+                        <div class="s5-ft">QR code for instant mobile scan</div>
+                    </div>
+                    <div class="s5-feat">
+                        <div class="s5-fi" style="background:rgba(6,182,212,.1);color:#06b6d4">🌐</div>
+                        <div class="s5-ft">Public /verify/:id — no login required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 6: EMPLOYER -->
+    <div class="sc" id="s6">
+        <div class="s6">
+            <div class="s6-lay">
+                <div class="s6-top">
+                    <h2>Employer Dashboard — <span class="s1-grad">Hire with Confidence</span></h2>
+                    <div class="s6-fils">
+                        <div class="s6-fil">All</div>
+                        <div class="s6-fil act">React</div>
+                        <div class="s6-fil">Python</div>
+                        <div class="s6-fil">Electrical</div>
+                    </div>
+                </div>
+                <table class="s6-tbl">
+                    <thead>
+                        <tr>
+                            <th>Candidate</th>
+                            <th>Skill</th>
+                            <th>Level</th>
+                            <th>Score</th>
+                            <th>Verified</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="s6-av" style="background:rgba(99,102,241,.12);color:#818cf8">JM</span>Jesh
+                                M.</td>
+                            <td><span class="s6-stag" style="background:rgba(99,102,241,.1);color:#818cf8">React</span>
+                            </td>
+                            <td style="color:#10b981;font-weight:700">Expert</td>
+                            <td><span class="s6-sc" style="color:#10b981">92%</span></td>
+                            <td>✅ AI Verified</td>
+                            <td><button class="s6-vb">🔍 Verify</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="s6-av" style="background:rgba(245,166,35,.12);color:#f5a623">AK</span>Arjun
+                                K.</td>
+                            <td><span class="s6-stag" style="background:rgba(99,102,241,.1);color:#818cf8">React</span>
+                            </td>
+                            <td style="color:#10b981;font-weight:700">Advanced</td>
+                            <td><span class="s6-sc" style="color:#f5a623">85%</span></td>
+                            <td>✅ AI Verified</td>
+                            <td><button class="s6-vb">🔍 Verify</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="s6-av" style="background:rgba(16,185,129,.12);color:#10b981">PS</span>Priya
+                                S.</td>
+                            <td><span class="s6-stag" style="background:rgba(99,102,241,.1);color:#818cf8">React</span>
+                            </td>
+                            <td style="color:#f5a623;font-weight:700">Intermediate</td>
+                            <td><span class="s6-sc" style="color:#f5a623">78%</span></td>
+                            <td>✅ AI Verified</td>
+                            <td><button class="s6-vb">🔍 Verify</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="s6-av" style="background:rgba(6,182,212,.12);color:#06b6d4">RV</span>Rohan
+                                V.</td>
+                            <td><span class="s6-stag" style="background:rgba(99,102,241,.1);color:#818cf8">React</span>
+                            </td>
+                            <td style="color:#10b981;font-weight:700">Expert</td>
+                            <td><span class="s6-sc" style="color:#10b981">96%</span></td>
+                            <td>✅ AI Verified</td>
+                            <td><button class="s6-vb">🔍 Verify</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="s6-ph">
+                <div class="s6-ps">
+                    <div class="s6-pc">✓</div>
+                    <div class="s6-pt">Verified!</div>
+                    <div class="s6-pu">Jesh M. — React Expert<br>Score: 92% • AI Verified</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QR grid
+        (() => {
+            const g = document.getElementById('qrG');
+            [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1,
+                1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0,
+                1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1,
+                0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1]
+                .forEach(v => { const c = document.createElement('div'); c.className = v ? 'qd' : 'ql'; g.appendChild(c) })
+        })();
+
+        const scenes = [
+            { id: 's1', start: 0, end: 10, cap: "Welcome to SkillProof. We stop resume fraud by turning your actions into verified credentials.", lab: "Stop Resume Fraud. Prove Your Skills." },
+            { id: 's2', start: 10, end: 22, cap: "Candidates simply pick a skill and record themselves performing a real-world task.", lab: "Step 1: Record a real-world task." },
+            { id: 's3', start: 22, end: 35, cap: "No multiple-choice questions. Just raw ability captured on screen.", lab: "Real Tasks. No Guesswork." },
+            { id: 's4', start: 35, end: 45, cap: "Our Gemini Vision AI audits every frame, evaluating your logic, accuracy, and best practices.", lab: "Gemini AI audits your performance." },
+            { id: 's5', start: 45, end: 55, cap: "Pass the audit, and you earn a tamper-proof digital badge backed by a full AI report.", lab: "Earn Your Verified Badge." },
+            { id: 's6', start: 55, end: 60, cap: "Employers: just scan the QR code to verify. Hire with 100% confidence, every single time.", lab: "Scan to Verify. Hire with Confidence." }
+        ];
+        const T = 60; let t0 = null, ci = -1;
+        function fmt(s) { return Math.floor(s / 60) + ':' + (Math.floor(s % 60) < 10 ? '0' : '') + Math.floor(s % 60) }
+        function tick(ts) {
+            if (!t0) t0 = ts; const e = (ts - t0) / 1000, p = Math.min(e / T * 100, 100);
+            document.getElementById('progFill').style.width = p + '%';
+            document.getElementById('timer').textContent = fmt(Math.min(e, T)) + ' / 1:00';
+            let idx = 0; for (let i = 0; i < scenes.length; i++)if (e >= scenes[i].start && e < scenes[i].end) idx = i;
+            if (e >= T) idx = scenes.length - 1;
+            if (idx !== ci) {
+                ci = idx; scenes.forEach((s, i) => { document.getElementById(s.id).classList.toggle('on', i === idx) });
+                document.getElementById('capText').textContent = scenes[idx].cap;
+                document.getElementById('capLabel').textContent = scenes[idx].lab
+            }
+            if (e < T + 2) requestAnimationFrame(tick);
+        }
+        setTimeout(() => requestAnimationFrame(tick), 600);
+    </script>
+</body>
+
+</html>

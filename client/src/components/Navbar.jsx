@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, LogOut, User, Briefcase, Trophy, BarChart3 } from 'lucide-react';
+import { Shield, LogOut, User, Briefcase, Trophy, BarChart3, Play } from 'lucide-react';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
@@ -28,6 +28,13 @@ export default function Navbar() {
                 <Link to="/leaderboard" className={isActive('/leaderboard')}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Trophy size={16} /> Leaderboard
+                    </span>
+                </Link>
+
+                {/* Demo walkthrough — always visible */}
+                <Link to="/walkthrough" className={isActive('/walkthrough')}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Play size={16} /> Demo
                     </span>
                 </Link>
 

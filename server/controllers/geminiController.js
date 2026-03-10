@@ -11,47 +11,72 @@ const MODEL_PRIORITY = [
     'gemini-2.5-flash',
     'gemini-2.0-flash',
     'gemini-2.0-flash-lite',
+    'gemini-1.5-flash',  // Added as fallback — often has separate quota
 ];
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
  * Try to call Gemini with the uploaded file, trying multiple models
+ * with retry + exponential backoff for quota errors
  */
 async function callGeminiWithVideo(fileUri, fileMimeType, prompt, apiKey) {
     const genAI = new GoogleGenerativeAI(apiKey);
     let lastError = null;
+    const MAX_RETRIES = 3;
 
     for (const modelName of MODEL_PRIORITY) {
-        try {
-            console.log(`🤖 Trying model: ${modelName}...`);
-            const model = genAI.getGenerativeModel({ model: modelName });
+        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                console.log(`🤖 Trying model: ${modelName} (attempt ${attempt}/${MAX_RETRIES})...`);
+                const model = genAI.getGenerativeModel({ model: modelName });
 
-            const result = await model.generateContent([
-                {
-                    fileData: {
-                        mimeType: fileMimeType,
-                        fileUri: fileUri
-                    }
-                },
-                { text: prompt }
-            ]);
+                const result = await model.generateContent([
+                    {
+                        fileData: {
+                            mimeType: fileMimeType,
+                            fileUri: fileUri
+                        }
+                    },
+                    { text: prompt }
+                ]);
 
-            const response = await result.response;
-            let responseText = response.text();
+                const response = await result.response;
+                let responseText = response.text();
 
-            console.log(`✅ ${modelName} responded successfully`);
+                console.log(`✅ ${modelName} responded successfully`);
 
-            // Clean potential markdown code fences
-            responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                // Clean potential markdown code fences
+                responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
 
-            // Try to parse as JSON
-            const parsed = JSON.parse(responseText);
-            return { data: parsed, model: modelName };
+                // Try to parse as JSON
+                const parsed = JSON.parse(responseText);
+                return { data: parsed, model: modelName };
 
-        } catch (err) {
-            console.warn(`⚠️ ${modelName} failed: ${err.message.substring(0, 120)}`);
-            lastError = err;
-            // If quota exceeded or rate limited, try next model
-            continue;
+            } catch (err) {
+                lastError = err;
+                const isQuota = err.message?.includes('429') ||
+                    err.message?.includes('quota') ||
+                    err.message?.includes('rate') ||
+                    err.message?.includes('Resource has been exhausted') ||
+                    err.status === 429;
+
+                console.warn(`⚠️ ${modelName} attempt ${attempt} failed: ${err.message?.substring(0, 120)}`);
+
+                if (isQuota && attempt < MAX_RETRIES) {
+                    // Exponential backoff: 10s, 20s, 40s
+                    const waitSec = 10 * Math.pow(2, attempt - 1);
+                    console.log(`⏳ Quota/rate limit hit. Waiting ${waitSec}s before retry...`);
+                    await sleep(waitSec * 1000);
+                    continue; // retry same model
+                }
+
+                // If not a quota error, or we've exhausted retries, try next model
+                if (isQuota) {
+                    console.log(`⏭️ All retries exhausted for ${modelName}, trying next model...`);
+                }
+                break; // break retry loop, go to next model
+            }
         }
     }
 
