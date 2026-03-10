@@ -4,7 +4,7 @@ import { Shield } from 'lucide-react';
 
 /**
  * Full-page brand loader shown on first visit.
- * Displays the SkillProof logo with orbital rings,
+ * Displays the SkillBuster logo with orbital rings,
  * then dissolves away after assets are ready.
  */
 export default function PageLoader() {
@@ -70,7 +70,7 @@ export default function PageLoader() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
                     >
-                        Skill<span className="pl-brand-accent">Proof</span>
+                        Skill<span className="pl-brand-accent">Buster</span>
                     </motion.h1>
 
                     {/* Tagline */}

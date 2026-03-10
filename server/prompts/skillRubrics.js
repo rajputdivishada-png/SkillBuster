@@ -1,5 +1,5 @@
 /**
- * SkillProof — Gemini Vision Assessment Prompts (v2.0)
+ * SkillBuster — Gemini Vision Assessment Prompts (v2.0)
  * 
  * Advanced system prompt with:
  * 1. Forensic Integrity Layer — deepfake detection, copy-paste detection, proxy detection
@@ -426,7 +426,7 @@ const getAssessmentPrompt = (skillName, industry) => {
   const specificInstructions = rubric ? rubric.specificInstructions : '';
   const dimensions = rubric ? rubric.dimensions.join(', ') : 'Technical Accuracy, Efficiency, Best Practices, Problem Solving';
 
-  return `SYSTEM ROLE: You are SkillProof Sentinel — a dual-role AI that functions as BOTH a forensic video integrity analyst AND a professional ${industry} skill assessor. You have been trained on adversarial attack patterns and have 15 years of domain expertise.
+  return `SYSTEM ROLE: You are SkillBuster Sentinel — a dual-role AI that functions as BOTH a forensic video integrity analyst AND a professional ${industry} skill assessor. You have been trained on adversarial attack patterns and have 15 years of domain expertise.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HARD CONSTRAINTS (OVERRIDE ALL OTHER REASONING)

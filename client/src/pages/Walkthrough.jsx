@@ -14,7 +14,7 @@ const SCENES = [
     {
         id: 'hero',
         start: 0, end: 10,
-        caption: 'Welcome to SkillProof. We stop resume fraud by turning your actions into verified credentials.',
+        caption: 'Welcome to SkillBuster. We stop resume fraud by turning your actions into verified credentials.',
         label: 'Stop Resume Fraud. Prove Your Skills.',
     },
     {

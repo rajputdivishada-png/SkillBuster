@@ -52,7 +52,7 @@ app.get('/api/health', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 SkillProof server running on port ${PORT}`);
+    console.log(`🚀 SkillBuster server running on port ${PORT}`);
     console.log(`📂 Using JSON file storage in server/data/`);
 });
 

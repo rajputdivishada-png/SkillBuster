@@ -20,7 +20,7 @@ export default function Navbar() {
                 <div className="logo-icon">
                     <Shield size={20} />
                 </div>
-                SkillProof
+                SkillBuster
             </Link>
 
             <div className="navbar-links">
