@@ -1543,5 +1543,133 @@
     },
     "integrityFlagged": false,
     "createdAt": "2026-03-10T15:53:40.048Z"
+  },
+  {
+    "_id": "mmmbksia-iw5bdg72h",
+    "candidateId": "mmmb80i7-tod78u1c2",
+    "skillName": "Python Scripting",
+    "industry": "IT / Software",
+    "overallScore": 80,
+    "passed": true,
+    "skillLevel": "Intermediate",
+    "dimensions": {
+      "technicalAccuracy": {
+        "score": 90,
+        "observation": "The Python syntax is correct for variable assignment, type casting, input, and print functions. All arithmetic operators are used appropriately, and the code executes without errors."
+      },
+      "efficiency": {
+        "score": 85,
+        "observation": "For the given task of performing basic arithmetic operations, the code is efficient. There are no redundant calculations or unnecessary complex structures. The solution directly addresses the problem."
+      },
+      "bestPractices": {
+        "score": 75,
+        "observation": "Variable names (num1, num2) are clear and self-explanatory. User prompts are descriptive. However, the use of string concatenation with '+' for print statements could be improved by using f-strings for better readability and modern Python practice."
+      },
+      "problemSolving": {
+        "score": 80,
+        "observation": "The candidate successfully translates the requirement for basic arithmetic operations into a working Python script. They correctly identify the need for integer conversion for numerical operations and structure the output clearly."
+      }
+    },
+    "strengths": [
+      "Correctly uses input() for user interaction",
+      "Properly converts string input to integers using int()",
+      "Accurate implementation of various arithmetic operators",
+      "Clear and structured output with descriptive labels",
+      "Code executes successfully without errors"
+    ],
+    "improvements": [
+      "Adopt f-strings or the .format() method for clearer and more modern string formatting in print statements.",
+      "Pay close attention to spelling in string literals for professional output and user experience."
+    ],
+    "flaws": [
+      {
+        "timestamp": "0:47",
+        "description": "Typo in the initial print statement: 'opearting' instead of 'operating'. This is a minor presentation error.",
+        "severity": "minor",
+        "suggestion": "Always proofread print statements and comments for spelling and grammar to ensure professional communication."
+      },
+      {
+        "timestamp": "1:05",
+        "description": "Used string concatenation '+' for displaying output, which is functional but less Pythonic and readable compared to f-strings or the .format() method.",
+        "severity": "minor",
+        "suggestion": "Adopt f-strings (formatted string literals) for more concise and readable string formatting, e.g., `print(f'addition: {num1 + num2}')`."
+      }
+    ],
+    "timestamps": [
+      {
+        "time": "0:10",
+        "event": "Starts typing `num1 = int(input('enter first number'))`"
+      },
+      {
+        "time": "0:25",
+        "event": "Starts typing `num2 = int(input('enter second number'))`"
+      },
+      {
+        "time": "0:40",
+        "event": "Types `print('opearting on num1 and num2')` (typo noted)"
+      },
+      {
+        "time": "1:00",
+        "event": "Types `print('addition :', num1+num2)`"
+      },
+      {
+        "time": "1:15",
+        "event": "Types `print('subtraction :', num1-num2)`"
+      },
+      {
+        "time": "1:30",
+        "event": "Types `print('multiplication :', num1*num2)`"
+      },
+      {
+        "time": "1:47",
+        "event": "Types `print('floor division :', num1//num2)`"
+      },
+      {
+        "time": "2:06",
+        "event": "Types `print('modulus division :', num1%num2)`"
+      },
+      {
+        "time": "2:27",
+        "event": "Types `print('exponent :', num1**num2)`"
+      },
+      {
+        "time": "3:00",
+        "event": "Clicks 'Run' to execute the code"
+      },
+      {
+        "time": "3:03",
+        "event": "Enters '64' for the first number"
+      },
+      {
+        "time": "3:05",
+        "event": "Enters '2' for the second number"
+      },
+      {
+        "time": "3:06",
+        "event": "Output displayed with results for all operations"
+      }
+    ],
+    "employerSummary": "The candidate demonstrates solid foundational Python scripting skills by developing a program that takes two integer inputs and performs a range of arithmetic operations. The code is functionally correct and well-structured for a basic script, indicating a good grasp of core Python concepts. Minor improvements in output formatting and proofreading were noted.",
+    "verifiedSkills": [
+      "Python Syntax",
+      "Input/Output Operations",
+      "Type Conversion (int)",
+      "Arithmetic Operations"
+    ],
+    "videoPath": "C:\\Users\\lenovo\\Desktop\\Aura-audit-main\\Aura-audit-latest\\Aura-audit-main\\server\\uploads\\video-1773250440791-372915718.webm",
+    "analyzedBy": "gemini-2.5-flash",
+    "isGeminiAnalysis": true,
+    "integrityFlags": {
+      "isDeepfakeDetected": false,
+      "deepfakeConfidence": "none",
+      "deepfakeEvidence": "",
+      "isCopyPasteDetected": false,
+      "copyPasteEvidence": "",
+      "isProxyDetected": false,
+      "proxyEvidence": ""
+    },
+    "integrityFlagged": false,
+    "createdAt": "2026-03-11T17:35:23.218Z",
+    "badgeId": "5faebd7b-645e-4e3a-8917-4d43a43c4f7e"
   }
 ]

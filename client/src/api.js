@@ -53,6 +53,7 @@ export const verifyBadge = (badgeId) => API.get(`/verify/${badgeId}`);
 
 // Skills
 export const getSkills = () => API.get('/skills');
+export const searchSkills = (q) => API.get('/skills/search', { params: q ? { q } : {} });
 
 // Candidates (employer)
 export const searchCandidates = (params) => API.get('/candidates', { params });

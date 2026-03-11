@@ -1222,6 +1222,232 @@ a:hover {
 /* ======================================
    EMPLOYER DASHBOARD
    ====================================== */
+
+/* --- Skill Search Bar --- */
+.skill-search-container {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.skill-search-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.skill-search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+  transition: all var(--transition-normal);
+}
+
+.skill-search-input-wrapper:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), var(--shadow-glow);
+}
+
+.skill-search-icon {
+  flex-shrink: 0;
+  margin-left: 14px;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+.skill-search-input-wrapper:focus-within .skill-search-icon {
+  color: var(--accent-primary);
+}
+
+.skill-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: var(--font-primary);
+}
+
+.skill-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.skill-search-sort-btn,
+.skill-search-clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.skill-search-sort-btn:hover,
+.skill-search-clear:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--text-primary);
+}
+
+.skill-search-sort-btn.active {
+  color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.skill-search-clear:hover {
+  color: var(--accent-rose);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+/* --- Autocomplete Dropdown --- */
+.skill-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  max-height: 320px;
+  overflow-y: auto;
+  background: rgba(14, 14, 28, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(99, 102, 241, 0.08);
+  padding: 6px;
+  animation: skillDropdownIn 0.2s ease-out;
+}
+
+@keyframes skillDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar inside dropdown */
+.skill-search-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.skill-search-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.skill-search-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-full);
+}
+
+/* --- Each suggestion item --- */
+.skill-search-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-primary);
+  font-size: 0.92rem;
+}
+
+.skill-search-item:hover,
+.skill-search-item.active {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.skill-search-item.selected {
+  background: rgba(99, 102, 241, 0.15);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.skill-search-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skill-search-item-name {
+  font-weight: 500;
+}
+
+.skill-search-item-industry {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Match highlighting */
+.skill-search-item mark {
+  background: rgba(99, 102, 241, 0.25);
+  color: var(--accent-primary);
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* Candidate count badge */
+.skill-search-item-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* --- No results / loading states --- */
+.skill-search-no-results,
+.skill-search-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.skill-search-no-results span,
+.skill-search-loading span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.skill-search-no-results small {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
 .search-bar {
   display: flex;
   gap: 12px;

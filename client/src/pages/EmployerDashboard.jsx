@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { searchCandidates } from '../api';
 import { QRCodeSVG } from 'qrcode.react';
+import SkillSearchBar from '../components/SkillSearchBar';
 import {
     Search, Users, Award, TrendingUp, AlertTriangle,
     Mail, X, ExternalLink, Filter, Briefcase, ChevronDown
@@ -45,6 +46,21 @@ export default function EmployerDashboard() {
         fetchCandidates();
     }, []);
 
+    // Callback when a skill is selected from the SkillSearchBar
+    const handleSkillSelect = useCallback((skillName) => {
+        setSearchSkill(skillName);
+        // Trigger search with the new skill immediately
+        setLoading(true);
+        const params = {};
+        if (skillName) params.skill = skillName;
+        if (minScore) params.minScore = minScore;
+        if (level) params.level = level;
+        searchCandidates(params)
+            .then(({ data }) => setCandidates(data))
+            .catch(err => console.error('Failed to search candidates:', err))
+            .finally(() => setLoading(false));
+    }, [minScore, level]);
+
     const handleSearch = (e) => {
         e.preventDefault();
         fetchCandidates();
@@ -75,7 +91,10 @@ export default function EmployerDashboard() {
                 <p>Find verified, AI-assessed candidates for your team</p>
             </div>
 
-            {/* Search Bar */}
+            {/* Skill Search Bar — real-time autocomplete search */}
+            <SkillSearchBar onSkillSelect={handleSkillSelect} selectedSkill={searchSkill} />
+
+            {/* Advanced Filters */}
             <form onSubmit={handleSearch} className="search-bar" id="candidate-search">
                 <select
                     className="form-select"

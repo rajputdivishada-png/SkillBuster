@@ -44,6 +44,56 @@ app.get('/api/skills', (req, res) => {
     res.json(getSkillCategories());
 });
 
+// GET /api/skills/search — Search skills with candidate counts (for employer search bar)
+app.get('/api/skills/search', (req, res) => {
+    try {
+        const { q } = req.query;
+        const { store } = require('./store');
+
+        // Get all passed assessments
+        const assessments = store.find('assessments', (a) => a.passed === true);
+
+        // Aggregate skills with unique candidate counts
+        const skillMap = {};
+        for (const a of assessments) {
+            const skillName = a.skillName;
+            if (!skillMap[skillName]) {
+                skillMap[skillName] = { name: skillName, candidates: new Set(), industry: a.industry || '' };
+            }
+            skillMap[skillName].candidates.add(a.candidateId);
+        }
+
+        // Also include all skill categories (even those with 0 candidates)
+        const categories = getSkillCategories();
+        for (const cat of categories) {
+            if (!skillMap[cat.name]) {
+                skillMap[cat.name] = { name: cat.name, candidates: new Set(), industry: cat.industry };
+            }
+        }
+
+        // Convert Sets to counts and apply search filter
+        let skills = Object.values(skillMap).map(s => ({
+            name: s.name,
+            candidates: s.candidates.size,
+            industry: s.industry
+        }));
+
+        // Filter by query if provided (case-insensitive, partial match)
+        if (q && q.trim()) {
+            const query = q.trim().toLowerCase();
+            skills = skills.filter(s => s.name.toLowerCase().includes(query));
+        }
+
+        // Sort by candidate count descending by default
+        skills.sort((a, b) => b.candidates - a.candidates);
+
+        res.json(skills);
+    } catch (error) {
+        console.error('Skills search error:', error);
+        res.status(500).json({ message: 'Failed to search skills', error: error.message });
+    }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });

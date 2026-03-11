@@ -48,5 +48,45 @@
     "skills": [],
     "bio": "",
     "createdAt": "2026-03-08T19:13:36.916Z"
+  },
+  {
+    "_id": "mmmacc0n-c5w9yoede",
+    "name": "Test Employer",
+    "email": "test_employer@example.com",
+    "password": "$2a$12$cr0ylm3U4B0bySYgA1xNN.BZ1T.5Uk2RkNgPG5P44R1eoGTuw/XGO",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-11T17:00:48.983Z"
+  },
+  {
+    "_id": "mmman4i5-dnags5kco",
+    "name": "Aura Employer",
+    "email": "employer_aura@example.com",
+    "password": "$2a$12$PyWde/MdNLjlwpth27KLk.qRqVmqidk0QJ6nxcU6UVVuJvM2MHcsS",
+    "role": "employer",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-11T17:09:12.461Z"
+  },
+  {
+    "_id": "mmmb107r-f130t6vwn",
+    "name": "TestUser",
+    "email": "featheredrain4@gmail.com",
+    "password": "$2a$12$KoXK7D5/zRpPM5Ol07NiDOoAO9Z2zJU0c08Rw/DBIyI6Iduld4ILm",
+    "role": "employer",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-11T17:20:00.087Z"
+  },
+  {
+    "_id": "mmmb80i7-tod78u1c2",
+    "name": "Divishada ",
+    "email": "devop2test@gmail.com",
+    "password": "$2a$12$yVANT.sYgnItKmFrANuR1el/8JkWderB.9JTwZ5Z5Mg2RnkZ9XelS",
+    "role": "candidate",
+    "skills": [],
+    "bio": "",
+    "createdAt": "2026-03-11T17:25:27.055Z"
   }
 ]
